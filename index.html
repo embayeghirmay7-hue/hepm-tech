@@ -1,0 +1,138 @@
+ <!DOCTYPE html>
+<html>
+<head>
+    <title>HEPM-Tech Master Pro</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f0f2f5; text-align: center; padding: 20px; }
+        #login-screen { background: white; padding: 40px; border-radius: 15px; width: 300px; margin: 100px auto; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+        #main-content { display: none; }
+        .month-box { background: #007bff; color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; }
+        .total-container { background: #333; color: white; padding: 20px; border-radius: 15px; display: inline-block; margin-bottom: 20px; }
+        #total-amount { font-size: 2em; color: #ffcc00; font-weight: bold; }
+        .dashboard-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
+        .card { background: white; padding: 15px; border-radius: 12px; width: 260px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-top: 6px solid #007bff; text-align: left; }
+        
+        /* Direct Action Links Style */
+        .contact-info { font-size: 13px; color: #333; background: #f8f9fa; padding: 10px; border-radius: 8px; margin-top: 10px; border: 1px solid #ddd; line-height: 1.6; }
+        .contact-info a { color: #007bff; text-decoration: none; font-weight: bold; }
+        .contact-info a:hover { text-decoration: underline; }
+
+        .incomplete { color: #d9534f; font-weight: bold; }
+        .complete { color: #28a745; font-weight: bold; }
+        textarea { width: 95%; height: 60px; margin-top: 10px; border-radius: 5px; border: 1px solid #ccc; }
+        button { background-color: #007bff; color: white; border: none; padding: 12px; cursor: pointer; border-radius: 8px; width: 100%; font-weight: bold; margin-top: 10px; }
+        .save-btn { background-color: #28a745; margin-top: 30px; width: 280px; font-size: 16px; }
+        input { padding: 12px; width: 85%; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ccc; }
+    </style>
+</head>
+<body>
+
+    <div id="login-screen">
+        <h2 style="color: #007bff;">HEPM-Tech Login</h2>
+        <input type="password" id="passInput" placeholder="Password: Girmay2026">
+        <button onclick="checkLogin()">Access Dashboard</button>
+    </div>
+
+    <div id="main-content">
+        <h1>🚀 HEPM-Tech Solutions Master</h1>
+        
+        <div class="month-box">
+            <select id="monthSelect" onchange="loadMonth()">
+                <option value="January">January</option><option value="February">February</option>
+                <option value="March" selected>March</option><option value="April">April</option>
+                <option value="May">May</option><option value="June">June</option>
+                <option value="July">July</option><option value="August">August</option>
+                <option value="September">September</option><option value="October">October</option>
+                <option value="November">November</option><option value="December">December</option>
+            </select>
+        </div>
+
+        <div class="total-container">
+            <p><span id="monthTitle">March</span> Remaining</p>
+            <span id="total-amount">0.00</span> EUR
+        </div>
+
+        <div id="cards-container" class="dashboard-container"></div>
+        <button class="save-btn" onclick="saveToLocal()">💾 SAVE PROGRESS</button>
+    </div>
+
+    <script>
+        const PASS = "Girmay2026";
+        
+        // Direct Action Links
+        const contacts = {
+            eos: "📞 <a href='tel:05618002450'>0561 800-2450</a><br>📧 <a href='mailto:info@eos-vkb.de?subject=Inquiry Case: 77592001601'>Send Email</a>",
+            pair: "📞 <a href='tel:030120864700'>030 120864700</a><br>📧 <a href='mailto:info@pairfinance.com?subject=Inquiry Case: 180641659057'>Send Email</a>",
+            riverty: "📞 <a href='tel:072215069100'>07221 5069100</a><br>📧 <a href='mailto:support@riverty.com'>Send Email</a>"
+        };
+
+        let currentData = JSON.parse(localStorage.getItem('hepmProData')) || {};
+
+        function checkLogin() {
+            if(document.getElementById('passInput').value === PASS) {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                loadMonth();
+            } else { alert("Incorrect Password!"); }
+        }
+
+        function loadMonth() {
+            const m = document.getElementById("monthSelect").value;
+            if(!currentData[m]) {
+                currentData[m] = { 
+                    eos: 50.00, pair: (m === "March" ? 218.82 : 0), 
+                    r1: 1.65, r2: 1.35, notes: "", paid: [false, false, false, false] 
+                };
+            }
+            render(m);
+        }
+
+        function render(m) {
+            const d = currentData[m];
+            document.getElementById("monthTitle").innerText = m;
+            let total = 0;
+            if(!d.paid[0]) total += d.eos;
+            if(!d.paid[1]) total += d.pair;
+            if(!d.paid[2]) total += d.r1;
+            if(!d.paid[3]) total += d.r2;
+            document.getElementById("total-amount").innerText = total.toFixed(2);
+
+            document.getElementById("cards-container").innerHTML = `
+                ${card("EOS (VKB)", d.eos, 0, d.paid[0], contacts.eos)}
+                ${d.pair > 0 ? card("PAIR Finance", d.pair, 1, d.paid[1], contacts.pair) : ''}
+                ${card("Riverty 1", d.r1, 2, d.paid[2], contacts.riverty)}
+                ${card("Riverty 2", d.r2, 3, d.paid[3], contacts.riverty)}
+                <div class="card" style="border-top: 6px solid #666;">
+                    <h3>Notes</h3>
+                    <textarea id="noteArea" oninput="updateNote('${m}')" placeholder="Write updates here...">${d.notes}</textarea>
+                </div>
+            `;
+        }
+
+        function card(name, amt, idx, isPaid, info) {
+            return `<div class="card">
+                <h3>${name}</h3>
+                <p><strong>${amt.toFixed(2)} EUR</strong></p>
+                <span class="${isPaid ? 'complete' : 'incomplete'}">${isPaid ? 'Paid ✅' : 'Pending 🟡'}</span>
+                <div class="contact-info">${info}</div>
+                <button onclick="markPaid(${idx})" ${isPaid ? 'disabled' : ''}>${isPaid ? 'DONE' : 'Confirm'}</button>
+            </div>`;
+        }
+
+        function markPaid(idx) {
+            const m = document.getElementById("monthSelect").value;
+            currentData[m].paid[idx] = true;
+            render(m);
+        }
+
+        function updateNote(m) {
+            currentData[m].notes = document.getElementById("noteArea").value;
+        }
+
+        function saveToLocal() {
+            localStorage.setItem('hepmProData', JSON.stringify(currentData));
+            alert("Data Saved Successfully!");
+        }
+    </script>
+</body>
+</html>

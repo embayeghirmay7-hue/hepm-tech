@@ -3,77 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HEPM-TECH | Girmay Search Dashboard</title>
+    <title>HEPM-TECH | Girmay Master Cards</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-50 min-h-screen pb-10 font-sans">
+<body class="bg-slate-100 min-h-screen pb-20 font-sans">
     <div id="loginPage" class="flex items-center justify-center min-h-screen p-4">
         <div class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-md border-t-8 border-blue-600 text-center">
-            <h1 class="text-3xl font-black text-blue-900 mb-6 italic tracking-tighter">HEPM-TECH</h1>
-            <input type="password" id="passInput" placeholder="Password: Girmay2026" class="w-full p-4 border-2 rounded-xl mb-4 text-center font-bold outline-none focus:border-blue-600 shadow-inner">
-            <button onclick="checkPass()" class="w-full bg-blue-600 text-white font-black py-4 rounded-xl shadow-lg hover:bg-blue-700 active:scale-95 transition-all uppercase">Open Dashboard</button>
+            <h1 class="text-3xl font-black text-blue-900 mb-6 italic">HEPM-TECH</h1>
+            <input type="password" id="passInput" placeholder="Password: Girmay2026" class="w-full p-4 border-2 rounded-xl mb-4 text-center font-bold outline-none focus:border-blue-600">
+            <button onclick="checkPass()" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl shadow-lg">LOGIN</button>
         </div>
     </div>
 
     <div id="dashboard" class="hidden">
-        <nav class="bg-blue-900 p-5 text-white flex justify-between items-center shadow-lg">
-            <h2 class="text-xl font-bold italic uppercase tracking-tighter text-blue-100">🚀 HEPM-TECH Solutions</h2>
-            <button onclick="location.reload()" class="bg-red-500 px-3 py-1 rounded text-[10px] font-black uppercase">Logout</button>
+        <nav class="bg-blue-900 p-5 text-white flex justify-between items-center shadow-lg sticky top-0 z-50">
+            <h2 class="text-xl font-bold italic tracking-tighter">🚀 HEPM-TECH</h2>
+            <button onclick="location.reload()" class="bg-red-500 px-3 py-1 rounded text-[10px] font-black uppercase tracking-widest">Logout</button>
         </nav>
 
-        <div class="max-w-4xl mx-auto p-4 md:p-8">
-            <div class="bg-white p-8 rounded-3xl shadow-xl border-l-8 border-blue-600 mb-8 text-center">
-                <h1 class="text-3xl font-black text-gray-800 mb-1">Girmay Embaye</h1>
-                <p class="text-blue-600 font-bold italic uppercase text-sm tracking-widest">Financial Overview</p>
-            </div>
-
+        <div class="max-w-6xl mx-auto p-6">
             <div class="flex justify-center mb-10">
-                <div class="bg-slate-800 text-white p-8 rounded-3xl shadow-2xl text-center border-b-8 border-yellow-400 w-full max-w-sm">
-                    <p class="text-gray-400 text-xs mb-2 uppercase font-black tracking-widest italic">Total Balance</p>
+                <div class="bg-slate-800 text-white p-8 rounded-2xl shadow-2xl text-center border-b-8 border-yellow-400 min-w-[320px]">
+                    <p class="text-gray-400 text-xs mb-2 uppercase font-black tracking-widest">Total Remaining Balance</p>
                     <h2 class="text-5xl font-black text-yellow-400 font-mono italic">€11,721.82</h2>
                 </div>
             </div>
 
-            <div class="bg-blue-600 p-6 rounded-t-3xl shadow-lg border-b-4 border-blue-800">
-                <h3 class="text-white font-black uppercase tracking-widest mb-4 flex items-center">🔍 Search Name / Creditor</h3>
-                <input type="text" id="searchInput" onkeyup="searchFunction()" placeholder="Search (e.g. Alexander, Josi, EOS)..." class="w-full p-4 rounded-2xl border-none outline-none text-gray-800 font-bold shadow-2xl" autofocus>
-            </div>
-
-            <div class="bg-white rounded-b-3xl shadow-2xl overflow-hidden border border-gray-100">
-                <div class="overflow-x-auto">
-                    <table id="debtTable" class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="bg-gray-100 text-gray-500 text-[10px] font-black uppercase tracking-widest border-b">
-                                <th class="p-5">Name / Contact</th>
-                                <th class="p-5 text-right">Amount</th>
-                                <th class="p-5 text-center">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-100 font-bold">
-                            <tr class="hover:bg-blue-50 transition-all"> <td class="p-5 text-gray-800 uppercase italic">Lemlem Tesfay</td> <td class="p-5 text-right font-mono text-blue-700 text-lg">€3,000.00</td> <td class="p-5 text-center"><span class="bg-red-100 text-red-600 px-2 py-1 rounded text-[10px]">UNPAID</span></td> </tr>
-                            <tr class="hover:bg-blue-50 transition-all"> <td class="p-5 text-blue-800 uppercase font-black italic">Alexander Embaye</td> <td class="p-5 text-right font-mono text-blue-700 text-lg">€2,000.00</td> <td class="p-5 text-center"><span class="bg-red-100 text-red-600 px-2 py-1 rounded text-[10px]">UNPAID</span></td> </tr>
-                            <tr class="hover:bg-blue-50 transition-all"> <td class="p-5 text-gray-800 uppercase">Josi FFB</td> <td class="p-5 text-right font-mono text-blue-700 text-lg">€1,300.00</td> <td class="p-5 text-center"><span class="bg-red-100 text-red-600 px-2 py-1 rounded text-[10px]">UNPAID</span></td> </tr>
-                            <tr class="hover:bg-blue-50 transition-all"> <td class="p-5 text-gray-800 uppercase">Fili Krar Augsburg</td> <td class="p-5 text-right font-mono text-blue-700 text-lg">€1,200.00</td> <td class="p-5 text-center"><span class="bg-red-100 text-red-600 px-2 py-1 rounded text-[10px]">UNPAID</span></td> </tr>
-                            <tr class="hover:bg-blue-50 transition-all"> <td class="p-5 text-gray-800 uppercase">Riverty / Amazon</td> <td class="p-5 text-right font-mono text-blue-700 text-lg">€1,250.00</td> <td class="p-5 text-center"><span class="bg-red-100 text-red-600 px-2 py-1 rounded text-[10px]">UNPAID</span></td> </tr>
-                            <tr class="hover:bg-blue-50 transition-all"> <td class="p-5 text-gray-800 uppercase">Feven Akolom</td> <td class="p-5 text-right font-mono text-blue-700 text-lg">€1,000.00</td> <td class="p-5 text-center"><span class="bg-red-100 text-red-600 px-2 py-1 rounded text-[10px]">UNPAID</span></td> </tr>
-                            <tr class="hover:bg-blue-50 transition-all"> <td class="p-5 text-gray-800 uppercase font-black">Efi Shawelmeley</td> <td class="p-5 text-right font-mono text-blue-700 text-lg">€600.00</td> <td class="p-5 text-center"><span class="bg-red-100 text-red-600 px-2 py-1 rounded text-[10px]">UNPAID</span></td> </tr>
-                            <tr class="hover:bg-blue-50 transition-all"> <td class="p-5 text-gray-800">
-                                <div class="uppercase">EOS (VKB)</div>
-                                <div class="text-[10px] text-gray-400">📞 0561 800-2450 | 📧 service@eos-de.com</div>
-                            </td> <td class="p-5 text-right font-mono text-blue-700 text-lg">€50.00</td> <td class="p-5 text-center"><span class="bg-orange-100 text-orange-600 px-2 py-1 rounded text-[10px]">ONGOING</span></td> </tr>
-                            <tr class="hover:bg-blue-50 transition-all"> <td class="p-5 text-gray-500 italic">Others (Yared, Mhre, Sami, Menge, etc.)</td> <td class="p-5 text-right font-mono text-blue-700 text-lg">€1,321.82</td> <td class="p-5 text-center"><span class="text-gray-300 text-[10px] italic">Multiple</span></td> </tr>
-                        </tbody>
-                    </table>
+            <div class="max-w-md mx-auto mb-10">
+                <div class="relative">
+                    <input type="text" id="searchInput" onkeyup="searchCards()" placeholder="🔍 Search name (Lemlem, Alexander, EOS)..." class="w-full p-4 pl-12 rounded-2xl border-none shadow-xl font-bold text-gray-700 outline-none focus:ring-4 ring-blue-200">
+                    <span class="absolute left-4 top-4 text-gray-400">🔍</span>
                 </div>
             </div>
-            
-            <p class="mt-8 text-center text-gray-400 text-[10px] font-bold tracking-widest uppercase italic">Updated: March 2026 | Private Dashboard ✅</p>
-        </div>
-    </div>
 
-    <script>
-        function checkPass() {
-            if(document.getElementById('passInput').value === "Girmay2026") {
-                document.getElementById('loginPage').style.display = 'none';
-                document.getElementById('dashboard').style.display = 'block';
-            } else { alert("Incorrect Password!"); }
+            <div id="cardsGrid" class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+                
+                <div class="debt-card bg-white p-6 rounded-2xl shadow-xl border-t-8 border-blue-500 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl font-black text-gray-800 mb-1 uppercase">EOS (VKB)</h3>
+                        <p class="text-2xl font-black text-gray-900 mb-2">50.00 EUR</p>
+                        <p class="text-red-500 font-bold flex items-center mb-4">Pending <span class="ml-2 text-yellow-500">🟡</span></p>
+                        <div class="bg-slate-50 p-3 rounded-xl border text-[11px] text-gray-600 font-medium space-y-2">
+                            <p>📞 0561 800-2450</p>
+                            <p>📧 Send Email</p>
+                        </div>
+                    </div>
+                    <button class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl mt-6 shadow-md hover:bg-blue-700">Confirm</button>
+                </div>
+
+                <div class="debt-card bg-white p-6 rounded-2xl shadow-xl border-t-8 border-blue-500 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl font-black text-gray-800 mb-1 uppercase">PAIR Finance</h3>
+                        <p class="text-2xl font-black text-gray-900 mb-2">218.82 EUR</p>
+                        <p class="text-red-500 font-bold flex items-center mb-4">Pending <span class="ml-2 text-yellow-500">🟡</span></p>
+                        <div class="bg-slate-50 p-3 rounded-xl border text-[11px] text-gray-600 font-medium space-y-2">
+                            <p>📞 030 120864700</p>
+                            <p>📧 Send Email</p>
+                        </div>
+                    </div>
+                    <button class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl mt-6 shadow-md hover:bg-blue-700">Confirm</button>
+                </div>
+
+                <div class="debt-card bg-white p-6 rounded-2xl shadow-xl border-t-8 border-blue-500 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl font-black text-gray-800 mb-1 uppercase italic">Lemlem Tesfay</h3>
+                        <p class="text-2xl font-black text-gray-900 mb-2">3,000.00 EUR</p>
+                        <p class="text-red-500 font-bold flex items-center mb-4">Unpaid <span class="ml-2 text-red-500">🛑</span></p>
+                        <div class="bg-slate-50 p-3 rounded-xl border text-[11px] text-gray-600 font-medium">
+                            <p class="italic text-gray-400 italic">Personal Friend / 2023</p>
+                        </div>
+                    </div>
+                    <button class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl mt-6 shadow-md hover:bg-blue-700">Confirm</button>
+                </div>
+
+                <div class="debt-card bg-white p-6 rounded-2xl shadow-xl border-t-8 border-blue-500 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl font-black text-blue-900 mb-1 uppercase italic">Alexander Embaye</h3>
+                        <p class="text-2xl font-black text-gray-900 mb-2">2,000.00 EUR</p>
+                        <p class="text-red-500 font-bold flex items-center mb-4">Unpaid <span class="ml-2 text-red-500">🛑</span></p>
+                        <div class="bg-slate-50 p-3 rounded-xl border text-[11px] text-gray-600 font-medium">
+                            <p class="italic text-gray-400 italic">Family Member</p>
+                        </div>
+                    </div>
+                    <button class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl mt-6 shadow-md hover:bg-blue-700">Confirm</button>
+                </div>
+
+                <div class="debt-card bg-white p-6 rounded-2xl shadow-xl border-t-8 border-blue-500 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl font-black text-gray-800 mb-1 uppercase">Josi FFB</h3>
+                        <p class="text-2xl font-black text-gray-900 mb-2">1,300.00 EUR</p>
+                        <p class="text-red-500 font-bold flex items-center mb-4 text-xs font-black">UNPAID 🔴</p>
+                    </div>
+                    <button class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl mt-6 shadow-md hover:bg-blue-700">Confirm</button>
+                </div>
+
+                <div class="debt-card bg-white p-6 rounded-2xl shadow-xl border-t-8 border-blue-500 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl font-black text-gray-800 mb-1 uppercase">Riverty / Amazon</h3>
+                        <p class="text-2xl font-black text-gray-900 mb-2">1,250.00 EUR</p>
+                        <p class="text-red-500 font-bold flex items-center mb-4">Pending <span class="ml-2 text-yellow-500">🟡</span></p>
+                    </div>
+                    <button class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl mt-6 shadow-md hover:bg-blue-700">Confirm</button>
+                </div>
+
+            </div>
+
+            <div class="max-w-md mx-auto mt-12">
+                <div class="bg-white p-6 rounded-3xl shadow-xl border-t-8 border-gray-400">
+                    <h4 class="text-lg font-black text

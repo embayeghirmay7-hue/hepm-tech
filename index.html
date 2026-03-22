@@ -1,95 +1,76 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HEPM-TECH | Girmay Master Dashboard</title>
+    <title>HEPM-TECH | Girmay Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-50 font-sans min-h-screen pb-20">
+<body class="bg-slate-50 min-h-screen pb-10">
     <div id="loginPage" class="flex items-center justify-center min-h-screen p-4">
         <div class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-md border-t-8 border-blue-600 text-center">
-            <h1 class="text-3xl font-black text-blue-900 mb-2 italic">HEPM-TECH</h1>
-            <p class="text-gray-500 mb-6 font-medium tracking-widest uppercase">Girmay Dashboard</p>
-            <input type="password" id="passInput" placeholder="Password: Girmay2026" class="w-full p-4 border-2 border-gray-100 rounded-xl mb-4 focus:border-blue-500 outline-none text-center font-bold">
-            <button onclick="checkPass()" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl hover:bg-blue-700 shadow-lg active:scale-95 transition-all">OPEN DASHBOARD</button>
+            <h1 class="text-3xl font-black text-blue-900 mb-6 italic">HEPM-TECH</h1>
+            <input type="password" id="passInput" placeholder="Password: Girmay2026" class="w-full p-4 border-2 rounded-xl mb-4 text-center font-bold outline-none focus:border-blue-600">
+            <button onclick="checkPass()" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl shadow-lg">LOGIN</button>
         </div>
     </div>
 
     <div id="dashboard" class="hidden">
-        <nav class="bg-blue-900 p-5 text-white flex justify-between items-center shadow-lg sticky top-0 z-50">
-            <h2 class="text-xl font-bold italic font-mono tracking-tighter">🚀 HEPM-TECH SOLUTIONS</h2>
-            <button onclick="location.reload()" class="bg-red-500 px-3 py-1 rounded text-xs font-bold uppercase">Logout</button>
+        <nav class="bg-blue-900 p-5 text-white flex justify-between items-center shadow-lg">
+            <h2 class="text-xl font-bold italic">🚀 HEPM-TECH Solutions</h2>
+            <button onclick="location.reload()" class="bg-red-500 px-3 py-1 rounded text-xs font-bold">Logout</button>
         </nav>
-        
-        <div class="max-w-4xl mx-auto p-4">
-            <div class="bg-white p-6 rounded-3xl shadow-xl border-l-8 border-blue-600 mb-6 mt-4">
-                <h1 class="text-3xl font-extrabold text-gray-800">Welcome Girmay! 👋</h1>
-                <p class="text-blue-600 font-semibold italic">Everything is organized here.</p>
+
+        <div class="max-w-4xl mx-auto p-6">
+            <div class="bg-white p-10 rounded-3xl shadow-xl border-l-8 border-blue-600 my-8 text-center">
+                <h1 class="text-4xl font-extrabold text-gray-800 mb-2">Welcome Girmay! 👋</h1>
+                <p class="text-blue-600 font-semibold text-lg italic tracking-wide">Your Dashboard is LIVE.</p>
             </div>
 
-            <div class="grid grid-cols-2 gap-4 mb-6 text-center">
-                <div class="bg-slate-800 text-white p-5 rounded-2xl shadow-lg">
-                    <p class="text-gray-400 text-xs uppercase font-bold">Total Balance</p>
-                    <h2 class="text-2xl font-bold text-yellow-400">€11,721.82</h2>
-                </div>
-                <div class="bg-blue-600 text-white p-5 rounded-2xl shadow-lg">
-                    <p class="text-blue-100 text-xs uppercase font-bold">Monthly Target</p>
-                    <h2 class="text-2xl font-bold">€1,400.00</h2>
+            <div class="flex justify-center mb-10">
+                <div class="bg-slate-800 text-white p-8 rounded-2xl shadow-lg text-center border-b-4 border-yellow-400 min-w-[300px]">
+                    <p class="text-gray-400 text-xs mb-2 uppercase tracking-widest">Total Remaining Debt</p>
+                    <h2 class="text-4xl font-bold text-yellow-400 font-mono">€11,721.82</h2>
                 </div>
             </div>
 
-            <h3 class="font-black text-blue-900 mb-3 ml-2 flex items-center">🏦 COMPANY DEBTS</h3>
-            <div class="grid gap-4 md:grid-cols-2 mb-8">
-                <div class="bg-white p-5 rounded-2xl shadow-md border-t-4 border-orange-500">
-                    <h3 class="text-lg font-bold text-gray-800">EOS (VKB)</h3>
-                    <p class="text-2xl font-black text-blue-900">€50.00</p>
-                    <p class="text-xs text-gray-500 mt-2">📞 0561 800-2450</p>
-                    <div class="mt-3 bg-orange-100 text-orange-700 px-2 py-1 rounded text-[10px] font-bold inline-block uppercase tracking-widest">Ongoing 🔄</div>
+            <div class="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100">
+                <div class="bg-blue-600 p-4">
+                    <h3 class="text-white font-bold uppercase tracking-widest text-center">Detailed Debts List</h3>
                 </div>
-                <div class="bg-white p-5 rounded-2xl shadow-md border-t-4 border-orange-500">
-                    <h3 class="text-lg font-bold text-gray-800">Shiden Amazon / Amahadri</h3>
-                    <p class="text-2xl font-black text-blue-900">€1,250.00</p>
-                    <p class="text-xs text-gray-500 mt-2 italic">Riverty / Pausy</p>
-                    <div class="mt-3 bg-red-100 text-red-600 px-2 py-1 rounded text-[10px] font-bold inline-block uppercase tracking-widest">Pending 🛑</div>
-                </div>
-            </div>
-
-            <h3 class="font-black text-blue-900 mb-3 ml-2 flex items-center">👥 PERSONAL DEBTS (Friends/Family)</h3>
-            <div class="bg-white rounded-2xl shadow-md overflow-hidden">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
-                        <thead class="bg-gray-100 text-gray-600 text-xs uppercase font-black">
-                            <tr>
-                                <th class="p-4 border-b">Name</th>
+                        <thead>
+                            <tr class="bg-gray-50 text-gray-600 text-xs uppercase font-black">
+                                <th class="p-4 border-b">Creditor Name</th>
                                 <th class="p-4 border-b text-right">Amount</th>
                                 <th class="p-4 border-b text-center">Status</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-100">
-                            <tr> <td class="p-4 font-bold">Lemlem Tesfay</td> <td class="p-4 text-right font-mono font-bold">€3,000.00</td> <td class="p-4 text-center"><span class="text-red-500 text-xs font-bold uppercase">Unpaid</span></td> </tr>
-                            <tr> <td class="p-4 font-bold text-blue-700">Alexander Embaye</td> <td class="p-4 text-right font-mono font-bold">€2,000.00</td> <td class="p-4 text-center"><span class="text-red-500 text-xs font-bold uppercase">Unpaid</span></td> </tr>
-                            <tr> <td class="p-4 font-bold">Josi FFB</td> <td class="p-4 text-right font-mono font-bold">€1,300.00</td> <td class="p-4 text-center"><span class="text-red-500 text-xs font-bold uppercase">Unpaid</span></td> </tr>
-                            <tr> <td class="p-4 font-bold">Fili Krar Augsburg</td> <td class="p-4 text-right font-mono font-bold">€1,200.00</td> <td class="p-4 text-center"><span class="text-red-500 text-xs font-bold uppercase">Unpaid</span></td> </tr>
-                            <tr> <td class="p-4 font-bold">Feven Akolom</td> <td class="p-4 text-right font-mono font-bold">€1,000.00</td> <td class="p-4 text-center"><span class="text-red-500 text-xs font-bold uppercase">Unpaid</span></td> </tr>
-                            <tr> <td class="p-4 font-bold">Efi Shawelmeley</td> <td class="p-4 text-right font-mono font-bold">€600.00</td> <td class="p-4 text-center"><span class="text-red-500 text-xs font-bold uppercase">Unpaid</span></td> </tr>
-                            <tr> <td class="p-4 font-bold">Other small debts</td> <td class="p-4 text-right font-mono font-bold">€1,321.82</td> <td class="p-4 text-center"><span class="text-gray-400 text-xs font-bold uppercase">Multiple</span></td> </tr>
+                        <tbody class="divide-y divide-gray-100 font-medium">
+                            <tr class="hover:bg-blue-50"> <td class="p-4">Lemlem Tesfay</td> <td class="p-4 text-right font-mono text-blue-800">€3,000.00</td> <td class="p-4 text-center"><span class="bg-red-100 text-red-600 px-2 py-1 rounded text-[10px] font-bold">UNPAID</span></td> </tr>
+                            <tr class="hover:bg-blue-50"> <td class="p-4 text-blue-700">Alexander Embaye</td> <td class="p-4 text-right font-mono text-blue-800">€2,000.00</td> <td class="p-4 text-center"><span class="bg-red-100 text-red-600 px-2 py-1 rounded text-[10px] font-bold">UNPAID</span></td> </tr>
+                            <tr class="hover:bg-blue-50"> <td class="p-4">Josi FFB</td> <td class="p-4 text-right font-mono text-blue-800">€1,300.00</td> <td class="p-4 text-center"><span class="bg-red-100 text-red-600 px-2 py-1 rounded text-[10px] font-bold">UNPAID</span></td> </tr>
+                            <tr class="hover:bg-blue-50"> <td class="p-4">Fili Krar Augsburg</td> <td class="p-4 text-right font-mono text-blue-800">€1,200.00</td> <td class="p-4 text-center"><span class="bg-red-100 text-red-600 px-2 py-1 rounded text-[10px] font-bold">UNPAID</span></td> </tr>
+                            <tr class="hover:bg-blue-50"> <td class="p-4">Riverty / Amazon</td> <td class="p-4 text-right font-mono text-blue-800">€1,250.00</td> <td class="p-4 text-center"><span class="bg-orange-100 text-orange-600 px-2 py-1 rounded text-[10px] font-bold">PENDING</span></td> </tr>
+                            <tr class="hover:bg-blue-50 text-gray-400 italic text-sm"> <td class="p-4 text-center" colspan="3">... and other small family/friend debts ...</td> </tr>
                         </tbody>
                     </table>
                 </div>
+            </div>
+
+            <div class="mt-6 text-center text-gray-400 text-xs">
+                Updated: March 2026 | Private & Secure
             </div>
         </div>
     </div>
 
     <script>
         function checkPass() {
-            const pin = document.getElementById('passInput').value;
-            if(pin === "Girmay2026") {
+            if(document.getElementById('passInput').value === "Girmay2026") {
                 document.getElementById('loginPage').style.display = 'none';
                 document.getElementById('dashboard').style.display = 'block';
-            } else { 
-                alert("Incorrect Password!"); 
-            }
+            } else { alert("Wrong Password!"); }
         }
     </script>
 </body>

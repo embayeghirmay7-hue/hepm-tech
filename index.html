@@ -1,69 +1,78 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HEPM-TECH | Smart Delivery</title>
+    <title>HEPM-TECH | Secure Ordering</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         .product-card { transition: all 0.3s ease; border-radius: 2.5rem; }
-        .modal { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(8px); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
+        .modal { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(10px); z-index: 100; align-items: center; justify-content: center; padding: 15px; }
         .modal.active { display: flex; }
-        input, textarea { border: 1.5px solid #e2e8f0 !important; }
-        input:focus, textarea:focus { border-color: #2563eb !important; background: white !important; }
+        input, textarea { border: 1.5px solid #f1f5f9 !important; transition: 0.3s; }
+        input:focus, textarea:focus { border-color: #2563eb !important; background: white !important; outline: none; }
+        .form-container { max-height: 90vh; overflow-y: auto; }
     </style>
 </head>
 <body class="bg-slate-50 min-h-screen font-sans">
 
-    <nav class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50 p-4 border-b border-slate-100">
+    <nav class="bg-white shadow-sm sticky top-0 z-50 p-4 border-b border-slate-100">
         <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="bg-blue-600 w-10 h-10 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-200">
-                    <i class="fas fa-shipping-fast text-white text-sm"></i>
-                </div>
-                <h1 class="text-xl font-black text-slate-800 italic uppercase tracking-tighter">HEPM-TECH</h1>
+            <h1 class="text-xl font-black text-slate-800 italic uppercase">HEPM-TECH</h1>
+            <div class="flex items-center gap-2">
+                <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                <span class="text-[9px] font-black text-slate-400 uppercase">Direct Delivery</span>
             </div>
-            <span class="text-[9px] font-black text-blue-600 bg-blue-50 px-3 py-1 rounded-full uppercase tracking-widest">Premium Service</span>
         </div>
     </nav>
 
     <main class="max-w-6xl mx-auto p-4 md:p-10">
-        <div id="productGrid" class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8"></div>
+        <div id="productGrid" class="grid grid-cols-2 md:grid-cols-4 gap-6"></div>
     </main>
 
     <div id="orderModal" class="modal">
-        <div class="bg-white w-full max-w-md rounded-[3rem] p-8 shadow-2xl relative overflow-hidden">
-            <div class="absolute top-0 left-0 w-full h-2 bg-blue-600"></div>
-            <h2 class="text-2xl font-black text-slate-800 mb-1 italic uppercase">Order Now</h2>
-            <p id="selectedItemName" class="text-blue-600 font-bold mb-6 text-xs bg-blue-50 inline-block px-3 py-1 rounded-lg"></p>
+        <div class="bg-white w-full max-w-md rounded-[2.5rem] p-6 shadow-2xl form-container">
+            <h2 class="text-2xl font-black text-slate-800 mb-1 italic uppercase tracking-tighter">Order Details</h2>
+            <p id="selectedItemName" class="text-blue-600 font-bold mb-6 text-[10px] bg-blue-50 px-3 py-1 rounded-full inline-block"></p>
             
             <div class="space-y-4">
                 <div>
-                    <label class="text-[10px] font-black uppercase text-slate-400 ml-2">Full Name (ስም)</label>
-                    <input type="text" id="custName" placeholder="Your name" class="w-full p-4 bg-slate-50 rounded-2xl outline-none font-bold text-slate-700">
+                    <label class="text-[9px] font-black uppercase text-slate-400 ml-2 italic">Full Name (ስማ መጸውዒ)</label>
+                    <input type="text" id="custName" placeholder="Your name" class="w-full p-4 bg-slate-50 rounded-2xl font-bold text-slate-700">
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="text-[10px] font-black uppercase text-slate-400 ml-2">Date (መዓልቲ)</label>
-                        <input type="date" id="orderDate" class="w-full p-4 bg-slate-50 rounded-2xl outline-none font-bold text-slate-700 text-sm">
+                        <label class="text-[9px] font-black uppercase text-slate-400 ml-2 italic">Primary Phone (ቁጽሪ 1)</label>
+                        <input type="tel" id="custPhone1" placeholder="Phone 1" class="w-full p-4 bg-slate-50 rounded-2xl font-bold text-slate-700">
                     </div>
                     <div>
-                        <label class="text-[10px] font-black uppercase text-slate-400 ml-2">Time (ሰዓት)</label>
-                        <input type="time" id="orderTime" class="w-full p-4 bg-slate-50 rounded-2xl outline-none font-bold text-slate-700 text-sm">
+                        <label class="text-[9px] font-black uppercase text-slate-400 ml-2 italic">Secondary Phone (ቁጽሪ 2)</label>
+                        <input type="tel" id="custPhone2" placeholder="Phone 2 (Optional)" class="w-full p-4 bg-slate-50 rounded-2xl font-bold text-slate-700">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-[9px] font-black uppercase text-slate-400 ml-2 italic">Date (መዓልቲ)</label>
+                        <input type="date" id="orderDate" class="w-full p-4 bg-slate-50 rounded-2xl font-bold text-slate-700 text-xs">
+                    </div>
+                    <div>
+                        <label class="text-[9px] font-black uppercase text-slate-400 ml-2 italic">Time (ሰዓት)</label>
+                        <input type="time" id="orderTime" class="w-full p-4 bg-slate-50 rounded-2xl font-bold text-slate-700 text-xs">
                     </div>
                 </div>
 
                 <div>
-                    <label class="text-[10px] font-black uppercase text-slate-400 ml-2">Address (ኣድራሻ)</label>
-                    <textarea id="custLoc" placeholder="Delivery address" class="w-full p-4 bg-slate-50 rounded-2xl outline-none font-bold text-slate-700 h-20"></textarea>
+                    <label class="text-[9px] font-black uppercase text-slate-400 ml-2 italic">Address (ኣድራሻ)</label>
+                    <textarea id="custLoc" placeholder="Where are you located?" class="w-full p-4 bg-slate-50 rounded-2xl font-bold text-slate-700 h-20"></textarea>
                 </div>
 
-                <button onclick="confirmAndSend()" class="w-full bg-slate-900 text-white p-5 rounded-3xl font-black shadow-xl hover:bg-blue-600 transition-all uppercase tracking-tighter">
-                    Complete Order <i class="fab fa-whatsapp ml-2 text-green-400"></i>
+                <button onclick="confirmAndSend()" class="w-full bg-blue-600 text-white p-5 rounded-3xl font-black shadow-xl hover:bg-black transition-all uppercase tracking-tighter">
+                    SEND ORDER <i class="fab fa-whatsapp ml-2"></i>
                 </button>
-                <button onclick="closeModal()" class="w-full text-slate-400 font-bold text-[10px] uppercase tracking-widest mt-2">Go Back</button>
+                <button onclick="closeModal()" class="w-full text-slate-300 font-bold text-[9px] uppercase mt-2">Cancel</button>
             </div>
         </div>
     </div>
@@ -90,16 +99,16 @@
                         if(!name) return;
 
                         const card = document.createElement('div');
-                        card.className = "product-card bg-white border border-slate-100 p-2 flex flex-col hover:shadow-2xl hover:border-blue-100";
+                        card.className = "product-card bg-white border border-slate-100 p-2 flex flex-col hover:shadow-xl";
                         card.innerHTML = `
-                            <div class="h-48 md:h-64 overflow-hidden rounded-[2rem] bg-slate-100 mb-3">
+                            <div class="h-44 md:h-64 overflow-hidden rounded-[2rem] bg-slate-50 mb-3">
                                 <img src="${photo}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/400?text=${name}'">
                             </div>
                             <div class="p-3 flex flex-col flex-grow text-center">
-                                <h3 class="text-slate-800 font-black text-xs uppercase mb-3 tracking-tight">${name}</h3>
-                                <div class="mt-auto flex flex-col gap-3">
-                                    <span class="text-blue-600 font-black text-xl italic">€${price}</span>
-                                    <button onclick="openModal('${name}', '${price}')" class="bg-blue-600 text-white py-3 rounded-2xl text-[10px] font-black shadow-lg shadow-blue-100 hover:bg-slate-900 transition-all uppercase">Order Now</button>
+                                <h3 class="text-slate-800 font-black text-xs uppercase mb-3">${name}</h3>
+                                <div class="mt-auto">
+                                    <p class="text-blue-600 font-black text-lg italic mb-3">€${price}</p>
+                                    <button onclick="openModal('${name}', '${price}')" class="w-full bg-slate-900 text-white py-3 rounded-2xl text-[10px] font-black uppercase">Order</button>
                                 </div>
                             </div>
                         `;
@@ -113,10 +122,7 @@
             currentItem = { name, price };
             document.getElementById('selectedItemName').innerText = `${name} - €${price}`;
             document.getElementById('orderModal').classList.add('active');
-            
-            // Set default date to today
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('orderDate').value = today;
+            document.getElementById('orderDate').value = new Date().toISOString().split('T')[0];
         }
 
         function closeModal() {
@@ -125,19 +131,19 @@
 
         function confirmAndSend() {
             const name = document.getElementById('custName').value;
+            const phone1 = document.getElementById('custPhone1').value;
+            const phone2 = document.getElementById('custPhone2').value || "Not Provided";
             const location = document.getElementById('custLoc').value;
             const date = document.getElementById('orderDate').value;
             const time = document.getElementById('orderTime').value;
 
-            if(!name || !location || !date || !time) {
-                alert("Please fill all details (Name, Date, Time, Address)!");
+            if(!name || !phone1 || !location || !date || !time) {
+                alert("Please fill Name, Phone 1, Date, Time, and Address!");
                 return;
             }
 
-            const message = `*NEW ORDER* 📦\n--------------------------\n*Product:* ${currentItem.name}\n*Price:* €${currentItem.price}\n\n*Delivery Schedule:* \n📅 Date: ${date}\n⏰ Time: ${time}\n\n*Customer Details:* \n👤 Name: ${name}\n📍 Address: ${location}\n--------------------------`;
-            const whatsappUrl = `https://wa.me/${MY_PHONE}?text=${encodeURIComponent(message)}`;
-            
-            window.open(whatsappUrl, '_blank');
+            const message = `*NEW ORDER* 🛍️\n--------------------------\n*Product:* ${currentItem.name}\n*Price:* €${currentItem.price}\n\n*Customer Contacts:* \n👤 Name: ${name}\n📞 Phone 1: ${phone1}\n📱 Phone 2: ${phone2}\n\n*Schedule:* \n📅 Date: ${date}\n⏰ Time: ${time}\n📍 Address: ${location}\n--------------------------`;
+            window.open(`https://wa.me/${MY_PHONE}?text=${encodeURIComponent(message)}`, '_blank');
             closeModal();
         }
 

@@ -1,37 +1,44 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HEPM-TECH | Smart Shop</title>
+    <title>HEPM-TECH | Premium Shop</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        .product-card:hover img { transform: scale(1.1); }
-        .glass { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); }
+        .product-card:hover img { transform: scale(1.1); transition: 0.5s; }
+        .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
     </style>
 </head>
-<body class="bg-slate-50 min-h-screen">
+<body class="bg-slate-50 min-h-screen font-sans">
 
     <header class="sticky top-0 z-50 glass shadow-sm p-4">
         <div class="max-w-6xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <div class="bg-blue-600 w-10 h-10 rounded-xl flex items-center justify-center shadow-lg">
-                    <i class="fas fa-candy-cane text-white"></i>
+                <div class="bg-blue-600 w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg">
+                    <i class="fas fa-store text-white text-xl"></i>
                 </div>
-                <h1 class="text-xl font-black text-blue-900 italic uppercase">HEPM-TECH</h1>
+                <div>
+                    <h1 class="text-2xl font-black text-blue-900 italic uppercase">HEPM-TECH</h1>
+                    <p class="text-[9px] font-bold text-blue-500 uppercase tracking-widest">Premium Shop</p>
+                </div>
             </div>
-            <input type="text" id="searchInput" onkeyup="searchMenu()" placeholder="Search..." 
-                   class="p-2 border rounded-xl text-xs outline-none focus:ring-2 focus:ring-blue-500">
+            <div class="relative w-40 md:w-80">
+                <input type="text" id="searchInput" onkeyup="searchMenu()" placeholder="Search..." 
+                       class="w-full p-2 pl-8 rounded-xl border-none ring-1 ring-gray-200 focus:ring-2 focus:ring-blue-500 outline-none text-sm font-bold">
+                <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+            </div>
         </div>
     </header>
 
-    <main class="max-w-6xl mx-auto p-6">
+    <main class="max-w-6xl mx-auto p-6 md:p-10">
         <div id="menuGrid" class="grid grid-cols-2 md:grid-cols-4 gap-6">
             </div>
     </main>
 
     <script>
+        // YOUR GOOGLE SHEET CSV LINK
         const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQH4oZK0msDak510wlcSWZf0Oo39Ncj3pZsSZkU2YhO4XnSEH6F6UrX9AqmBKHSiMRBcXzNodNb0hzR/pub?gid=0&single=true&output=csv';
 
         async function fetchMenu() {
@@ -47,37 +54,46 @@
                     if(cols.length >= 2) {
                         const name = cols[0].replace(/"/g, '').trim();
                         const price = cols[1] ? cols[1].replace(/"/g, '').trim() : "0";
-                        const photoFromSheet = cols[2] ? cols[2].replace(/"/g, '').trim() : '';
+                        const photo = cols[2] ? cols[2].replace(/"/g, '').trim() : '';
+                        const category = cols[3] ? cols[3].replace(/"/g, '').trim() : 'Premium';
 
                         if(!name) return;
 
-                        // SMART PHOTO LOGIC: 
-                        // If Sheet is empty, use a high-quality Candy image based on the name
-                        const displayPhoto = photoFromSheet || `https://source.unsplash.com/featured/?candy,${name}`;
+                        // FIX: If the link is the placeholder you typed, or empty, use a smart search image
+                        let finalPhoto = photo;
+                        if (!photo || photo.includes('ሊንክ-ናይ-ስእሊ') || photo.includes('jpg')) {
+                            finalPhoto = `https://loremflickr.com/400/400/candy,sweet,${encodeURIComponent(name)}`;
+                        }
 
                         const card = document.createElement('div');
-                        card.className = "product-card bg-white rounded-3xl shadow-sm border overflow-hidden transition-all hover:shadow-xl";
+                        card.className = "product-card bg-white rounded-[2.5rem] shadow-sm border border-slate-100 overflow-hidden transition-all flex flex-col";
                         card.innerHTML = `
-                            <div class="h-40 overflow-hidden bg-gray-100">
-                                <img src="${displayPhoto}" class="w-full h-full object-cover transition-transform" 
-                                     onerror="this.src='https://loremflickr.com/400/400/candy'">
+                            <div class="h-44 md:h-64 overflow-hidden relative bg-slate-100">
+                                <img src="${finalPhoto}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/400?text=${name}'">
+                                <div class="absolute top-4 left-4 bg-black/40 backdrop-blur-md text-white text-[9px] px-3 py-1 rounded-full font-black uppercase">
+                                    ${category}
+                                </div>
                             </div>
-                            <div class="p-4">
-                                <h3 class="font-black text-[11px] uppercase text-gray-700 mb-2 h-8 overflow-hidden">${name}</h3>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-blue-600 font-black">€${price}</span>
-                                    <button onclick="order('${name}')" class="bg-blue-600 text-white p-2 rounded-lg text-[10px] font-bold">+ ADD</button>
+                            <div class="p-5 flex flex-col flex-grow">
+                                <h3 class="text-slate-800 font-black text-xs md:text-sm uppercase mb-3 h-8 overflow-hidden">${name}</h3>
+                                <div class="mt-auto flex justify-between items-center">
+                                    <span class="text-blue-600 font-black text-xl italic">€${price}</span>
+                                    <button onclick="order('${name}', '${price}')" class="bg-blue-600 text-white p-3 rounded-2xl hover:bg-black transition-colors shadow-lg shadow-blue-100">
+                                        <i class="fas fa-plus text-xs"></i>
+                                    </button>
                                 </div>
                             </div>
                         `;
                         grid.appendChild(card);
                     }
                 });
-            } catch (e) { console.log("Error"); }
+            } catch (e) { console.error("Error loading CSV"); }
         }
 
-        function order(name) {
-            window.open(`https://wa.me/447756555684?text=I want to order ${name}`, '_blank');
+        function order(name, price) {
+            const phoneNumber = "447756555684"; // Your number
+            const message = `Hello HEPM-TECH, I want to order: ${name} (€${price})`;
+            window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
         }
 
         function searchMenu() {

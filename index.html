@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HEPM-TECH | Official Dashboard</title>
+    <title>HEPM-TECH | Girmay Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-100 min-h-screen pb-20 font-sans text-slate-900">
     <div id="loginPage" class="flex items-center justify-center min-h-screen p-4">
         <div class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-md border-t-8 border-blue-600 text-center">
-            <h1 class="text-3xl font-black text-blue-900 mb-6 italic tracking-tighter uppercase font-mono">HEPM-TECH</h1>
+            <h1 class="text-3xl font-black text-blue-900 mb-6 italic tracking-tighter uppercase">HEPM-TECH</h1>
             <input type="password" id="passInput" placeholder="Password: Girmay2026" class="w-full p-4 border-2 rounded-xl mb-4 text-center font-bold outline-none focus:border-blue-600">
             <button onclick="checkPass()" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-blue-700 transition-all">Login</button>
         </div>
@@ -24,7 +24,7 @@
         <div class="max-w-6xl mx-auto p-4 md:p-8">
             <div class="flex flex-col items-center mb-10 text-center">
                 <div class="bg-slate-800 text-white p-8 rounded-3xl shadow-2xl border-b-8 border-yellow-400 min-w-[320px] mb-4">
-                    <p class="text-gray-400 text-[10px] mb-2 uppercase font-black tracking-widest italic">Total Live Balance (from Excel)</p>
+                    <p class="text-gray-400 text-[10px] mb-2 uppercase font-black tracking-widest italic text-center">Total Balance Sum</p>
                     <h2 id="liveTotalDisplay" class="text-5xl font-black text-yellow-400 font-mono italic">€0.00</h2>
                 </div>
                 <p id="syncStatus" class="text-blue-900 font-black text-[10px] uppercase italic tracking-[0.2em] animate-pulse">● System Syncing...</p>
@@ -33,39 +33,36 @@
             <div class="grid gap-6 grid-cols-1 md:grid-cols-3 mb-12">
                 
                 <div class="bg-white p-6 rounded-3xl shadow-xl border-t-8 border-orange-500 hover:shadow-2xl transition-all">
-                    <h3 class="text-xl font-black text-gray-800 mb-1 uppercase tracking-tighter italic">EOS (VKB)</h3>
-                    <p class="text-[10px] font-black text-blue-600 mb-4 uppercase tracking-widest italic">Debt Collection</p>
+                    <h3 class="text-xl font-black text-gray-800 mb-3 uppercase tracking-tighter italic">EOS (VKB)</h3>
                     <div class="space-y-2">
                         <a href="tel:05618002450" class="flex items-center p-3 bg-blue-50 text-blue-700 rounded-xl font-bold text-xs hover:bg-blue-100">
-                            <span class="mr-2 font-black text-sm">📞</span> 0561 800-2450
+                            <span class="mr-2">📞</span> 0561 800-2450
                         </a>
-                        <a href="mailto:service@eos-solutions.com" class="flex items-center p-3 bg-slate-50 text-slate-700 rounded-xl font-bold text-[10px] hover:bg-slate-100 italic">
+                        <a href="mailto:service@eos-solutions.com" class="flex items-center p-3 bg-slate-50 text-slate-600 rounded-xl font-bold text-[10px] hover:bg-slate-100 italic">
                             <span class="mr-2">📧</span> service@eos-solutions.com
                         </a>
                     </div>
                 </div>
 
                 <div class="bg-white p-6 rounded-3xl shadow-xl border-t-8 border-orange-500 hover:shadow-2xl transition-all">
-                    <h3 class="text-xl font-black text-gray-800 mb-1 uppercase tracking-tighter italic">Riverty</h3>
-                    <p class="text-[10px] font-black text-blue-600 mb-4 uppercase tracking-widest italic">Payment Services</p>
+                    <h3 class="text-xl font-black text-gray-800 mb-3 uppercase tracking-tighter italic">Riverty</h3>
                     <div class="space-y-2">
                         <a href="tel:0722150400" class="flex items-center p-3 bg-blue-50 text-blue-700 rounded-xl font-bold text-xs hover:bg-blue-100">
-                            <span class="mr-2 font-black text-sm">📞</span> 07221 5040-0
+                            <span class="mr-2">📞</span> 07221 5040-0
                         </a>
-                        <a href="mailto:customercare@riverty.com" class="flex items-center p-3 bg-slate-50 text-slate-700 rounded-xl font-bold text-[10px] hover:bg-slate-100 italic">
+                        <a href="mailto:customercare@riverty.com" class="flex items-center p-3 bg-slate-50 text-slate-600 rounded-xl font-bold text-[10px] hover:bg-slate-100 italic">
                             <span class="mr-2">📧</span> customercare@riverty.com
                         </a>
                     </div>
                 </div>
 
                 <div class="bg-white p-6 rounded-3xl shadow-xl border-t-8 border-blue-900 hover:shadow-2xl transition-all">
-                    <h3 class="text-xl font-black text-gray-800 mb-1 uppercase tracking-tighter italic">Deutsche Bank</h3>
-                    <p class="text-[10px] font-black text-blue-600 mb-4 uppercase tracking-widest italic">Banking Services</p>
+                    <h3 class="text-xl font-black text-gray-800 mb-3 uppercase tracking-tighter italic text-center">Deutsche Bank</h3>
                     <div class="space-y-2">
                         <a href="tel:06991010000" class="flex items-center p-3 bg-blue-50 text-blue-700 rounded-xl font-bold text-xs hover:bg-blue-100">
-                            <span class="mr-2 font-black text-sm">📞</span> 069 910-10000
+                            <span class="mr-2">📞</span> 069 910-10000
                         </a>
-                        <a href="mailto:service.center@db.com" class="flex items-center p-3 bg-slate-50 text-slate-700 rounded-xl font-bold text-[10px] hover:bg-slate-100 italic">
+                        <a href="mailto:service.center@db.com" class="flex items-center p-3 bg-slate-50 text-slate-600 rounded-xl font-bold text-[10px] hover:bg-slate-100 italic">
                             <span class="mr-2">📧</span> service.center@db.com
                         </a>
                     </div>
@@ -74,12 +71,45 @@
 
             <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
                 <div class="bg-blue-700 p-6 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <h3 class="text-white font-black uppercase tracking-widest italic text-sm flex items-center">
-                        👥 Live Person Register
-                    </h3>
-                    <input type="text" id="searchInput" onkeyup="searchNames()" placeholder="🔍 Search name..." class="p-3 rounded-xl border-none outline-none w-full md:w-64 font-bold shadow-inner">
+                    <h3 class="text-white font-black uppercase tracking-widest italic text-sm">👥 Live Person Register</h3>
+                    <input type="text" id="searchInput" onkeyup="searchNames()" placeholder="🔍 Search name..." class="p-3 rounded-xl border-none outline-none w-full md:w-64 font-bold shadow-inner text-slate-800">
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left">
                         <thead>
-                            <tr class="bg-slate-10
+                            <tr class="bg-slate-100 text-[10px] font-black uppercase text-slate-500 border-b">
+                                <th class="p-5 font-black">Name</th>
+                                <th class="p-5 text-right font-black">Amount</th>
+                                <th class="p-5 text-center font-black">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="excelTableBody" class="divide-y divide-slate-100 font-bold italic"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT05rM698Fulyxz7luxuGeJ5b_9-NN9AYJ8KoXLL2rjYnRSnnB3S83XLCGx2noeQA3RpyGAXILK1ZiI/pub?gid=0&single=true&output=csv'; 
+
+        function checkPass() {
+            if(document.getElementById('passInput').value === "Girmay2026") {
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+                fetchExcelData();
+            } else { alert("Wrong Password!"); }
+        }
+
+        async function fetchExcelData() {
+            try {
+                const response = await fetch(SHEET_CSV_URL);
+                const data = await response.text();
+                const rows = data.split('\n'); 
+                const tableBody = document.getElementById('excelTableBody');
+                tableBody.innerHTML = '';
+                let totalSum = 0;
+
+                rows.forEach((row) => {
+                    const columns = row.split(',');
+                    if (columns.

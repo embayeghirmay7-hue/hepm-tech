@@ -9,7 +9,7 @@
 <body class="bg-slate-100 min-h-screen pb-20 font-sans text-slate-900">
     <div id="loginPage" class="flex items-center justify-center min-h-screen p-4">
         <div class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-md border-t-8 border-blue-600 text-center">
-            <h1 class="text-3xl font-black text-blue-900 mb-6 italic tracking-tighter uppercase font-mono">HEPM-TECH</h1>
+            <h1 class="text-3xl font-black text-blue-900 mb-6 italic tracking-tighter uppercase">HEPM-TECH</h1>
             <input type="password" id="passInput" placeholder="Password: Girmay2026" class="w-full p-4 border-2 rounded-xl mb-4 text-center font-bold outline-none focus:border-blue-600">
             <button onclick="checkPass()" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-blue-700 transition-all uppercase tracking-widest">Login</button>
         </div>
@@ -84,13 +84,32 @@
                         
                         if (name.toLowerCase() === "name" || name === "") return;
 
-                        // --- THE ULTIMATE FIX FOR 1.300 vs 1,30 ---
-                        // We remove everything EXCEPT numbers
-                        let cleanVal = rawVal.replace(/[^\d]/g, ''); 
+                        // --- IMPROVED LOGIC FOR GERMAN NUMBERS ---
+                        let amount = 0;
+                        if (rawVal) {
+                            // If it has both . and , (e.g. 1.300,50)
+                            if (rawVal.includes('.') && rawVal.includes(',')) {
+                                amount = parseFloat(rawVal.replace(/\./g, '').replace(',', '.'));
+                            } 
+                            // If it only has , (e.g. 1300,50)
+                            else if (rawVal.includes(',')) {
+                                amount = parseFloat(rawVal.replace(',', '.'));
+                            }
+                            // If it only has . (e.g. 1.300)
+                            else if (rawVal.includes('.')) {
+                                let parts = rawVal.split('.');
+                                // If last part is 3 digits, it's a thousand separator (1.300)
+                                if (parts[parts.length-1].length === 3) {
+                                    amount = parseFloat(rawVal.replace(/\./g, ''));
+                                } else {
+                                    amount = parseFloat(rawVal);
+                                }
+                            } else {
+                                amount = parseFloat(rawVal);
+                            }
+                        }
                         
-                        // If you use decimals like 1200.50, we need to handle that. 
-                        // But since your error is showing 1,30 instead of 1300:
-                        const amount = parseFloat(cleanVal) || 0;
+                        amount = isNaN(amount) ? 0 : amount;
                         totalSum += amount;
 
                         // Action Buttons Logic
@@ -101,23 +120,20 @@
                         if (email.includes('@')) {
                             actionHtml += `<a href="mailto:${email}" class="bg-blue-100 text-blue-600 px-3 py-1 rounded-lg text-[9px] uppercase font-black border border-blue-200 hover:bg-blue-200 shadow-sm">📧 Email</a>`;
                         }
-                        if (phone.length <= 5 && !email.includes('@')) {
-                            actionHtml += `<span class="text-slate-300 text-[9px] uppercase font-black italic">No Contact</span>`;
-                        }
                         actionHtml += `</div>`;
 
                         const tr = document.createElement('tr');
                         tr.className = "hover:bg-blue-50 transition-all border-b border-slate-50";
                         tr.innerHTML = `
                             <td class="p-5 uppercase text-sm font-black text-slate-700 tracking-tighter italic">${name}</td>
-                            <td class="p-5 text-right font-mono text-blue-800 font-black italic">€${amount.toLocaleString('de-DE', {minimumFractionDigits: 0})}</td>
+                            <td class="p-5 text-right font-mono text-blue-800 font-black italic">€${amount.toLocaleString('de-DE', {minimumFractionDigits: 2})}</td>
                             <td class="p-5 text-center">${actionHtml}</td>
                         `;
                         tableBody.appendChild(tr);
                     }
                 });
 
-                document.getElementById('liveTotalDisplay').innerText = `€${totalSum.toLocaleString('de-DE', {minimumFractionDigits: 0})}`;
+                document.getElementById('liveTotalDisplay').innerText = `€${totalSum.toLocaleString('de-DE', {minimumFractionDigits: 2})}`;
                 document.getElementById('syncStatus').innerText = "● LIVE SYSTEM ACTIVE";
             } catch (error) {
                 document.getElementById('syncStatus').innerText = "● SYNC ERROR";

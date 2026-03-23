@@ -1,9 +1,9 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HEPM-TECH | Ultimate Live Dashboard</title>
+    <title>HEPM-TECH | Ultimate Contact Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-100 min-h-screen pb-20 font-sans text-slate-900">
@@ -24,52 +24,28 @@
         <div class="max-w-6xl mx-auto p-4 md:p-8">
             <div class="flex flex-col items-center mb-10 text-center">
                 <div class="bg-slate-800 text-white p-8 rounded-3xl shadow-2xl border-b-8 border-yellow-400 min-w-[320px] mb-4">
-                    <p class="text-gray-400 text-[10px] mb-2 uppercase font-black tracking-widest italic">Total Live Balance Sum</p>
+                    <p class="text-gray-400 text-[10px] mb-2 uppercase font-black tracking-widest italic">Live Excel Total Sum</p>
                     <h2 id="liveTotalDisplay" class="text-5xl font-black text-yellow-400 font-mono italic">€0.00</h2>
                 </div>
                 <p id="syncStatus" class="text-blue-900 font-black text-[10px] uppercase italic tracking-[0.2em] animate-pulse">● System Syncing...</p>
             </div>
 
-            <div class="grid gap-6 grid-cols-1 md:grid-cols-3 mb-12">
-                <div class="bg-white p-6 rounded-3xl shadow-xl border-t-8 border-orange-500 hover:shadow-2xl transition-all">
-                    <h3 class="text-xl font-black text-gray-800 mb-3 uppercase tracking-tighter italic italic">EOS (VKB)</h3>
-                    <div class="space-y-2">
-                        <a href="tel:05618002450" class="flex items-center p-3 bg-blue-50 text-blue-700 rounded-xl font-bold text-xs hover:bg-blue-100 italic">📞 0561 800-2450</a>
-                        <a href="mailto:service@eos-solutions.com" class="flex items-center p-3 bg-slate-50 text-slate-600 rounded-xl font-bold text-[10px] hover:bg-slate-100 italic">📧 Email EOS</a>
-                    </div>
-                </div>
-                <div class="bg-white p-6 rounded-3xl shadow-xl border-t-8 border-orange-500 hover:shadow-2xl transition-all">
-                    <h3 class="text-xl font-black text-gray-800 mb-3 uppercase tracking-tighter italic italic italic">Riverty</h3>
-                    <div class="space-y-2">
-                        <a href="tel:0722150400" class="flex items-center p-3 bg-blue-50 text-blue-700 rounded-xl font-bold text-xs hover:bg-blue-100 italic">📞 07221 5040-0</a>
-                        <a href="mailto:customercare@riverty.com" class="flex items-center p-3 bg-slate-50 text-slate-600 rounded-xl font-bold text-[10px] hover:bg-slate-100 italic">📧 Email Riverty</a>
-                    </div>
-                </div>
-                <div class="bg-white p-6 rounded-3xl shadow-xl border-t-8 border-blue-900 hover:shadow-2xl transition-all text-center">
-                    <h3 class="text-xl font-black text-gray-800 mb-3 uppercase tracking-tighter italic italic text-center">Deutsche Bank</h3>
-                    <div class="space-y-2">
-                        <a href="tel:06991010000" class="flex items-center p-3 bg-blue-50 text-blue-700 rounded-xl font-bold text-xs hover:bg-blue-100 italic justify-center">📞 069 910-10000</a>
-                        <a href="mailto:service.center@db.com" class="flex items-center p-3 bg-slate-50 text-slate-600 rounded-xl font-bold text-[10px] hover:bg-slate-100 italic justify-center">📧 Email DB</a>
-                    </div>
-                </div>
-            </div>
-
             <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
                 <div class="bg-blue-700 p-6 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <h3 class="text-white font-black uppercase tracking-widest italic text-sm">👥 Live Person Register</h3>
+                    <h3 class="text-white font-black uppercase tracking-widest italic text-sm">👥 Live Register & Actions</h3>
                     <input type="text" id="searchInput" onkeyup="searchNames()" placeholder="🔍 Search name..." class="p-3 rounded-xl border-none outline-none w-full md:w-64 font-bold shadow-inner text-slate-800">
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left">
                         <thead>
                             <tr class="bg-slate-100 text-[10px] font-black uppercase text-slate-500 border-b">
-                                <th class="p-5 font-black">Name</th>
-                                <th class="p-5 text-right font-black">Amount</th>
-                                <th class="p-5 text-center font-black">Status</th>
+                                <th class="p-5">Name</th>
+                                <th class="p-5 text-right">Amount</th>
+                                <th class="p-5 text-center">Quick Actions</th>
                             </tr>
                         </thead>
                         <tbody id="excelTableBody" class="divide-y divide-slate-100 font-bold italic">
-                            <tr><td colspan="3" class="p-10 text-center text-slate-400 animate-pulse uppercase font-black text-xs italic">Loading Live Data...</td></tr>
+                            <tr><td colspan="3" class="p-10 text-center text-slate-400 animate-pulse uppercase font-black text-xs">Loading Live Data...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -78,7 +54,6 @@
     </div>
 
     <script>
-        // UPDATED MASTER LINK
         const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT05rM698Fulyxz7luxuGeJ5b_9-NN9AYJ8KoXLL2rjYnRSnnB3S83XLCGx2noeQA3RpyGAXILK1ZiI/pub?output=csv'; 
 
         function checkPass() {
@@ -99,36 +74,43 @@
                 let totalSum = 0;
 
                 rows.forEach((row, index) => {
-                    // This regex correctly splits columns even if they have commas inside quotes
                     const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                     
                     if (columns.length >= 2) {
                         const name = columns[0].replace(/"/g, '').trim();
                         let rawVal = columns[1].replace(/"/g, '').replace('€', '').trim();
+                        let phone = columns[2] ? columns[2].replace(/"/g, '').trim() : "";
+                        let email = columns[3] ? columns[3].replace(/"/g, '').trim() : "";
                         
-                        // Ignore header or empty rows
                         if (name.toLowerCase() === "name" || name === "") return;
 
-                        // ULTIMATE NUMERIC CLEANING (Fixes the €0.00 and €1.000 issue)
-                        if (rawVal.includes('.') && rawVal.includes(',')) {
-                            rawVal = rawVal.replace(/\./g, '').replace(',', '.');
-                        } else if (rawVal.includes(',')) {
-                            rawVal = rawVal.replace(',', '.');
-                        } else if (rawVal.includes('.')) {
-                            let parts = rawVal.split('.');
-                            // If the last part has 3 digits, it's likely a thousands separator
-                            if (parts[parts.length-1].length === 3) rawVal = rawVal.replace(/\./g, '');
-                        }
+                        // Smart Numeric Cleaning
+                        if (rawVal.includes('.') && rawVal.includes(',')) rawVal = rawVal.replace(/\./g, '').replace(',', '.');
+                        else if (rawVal.includes(',')) rawVal = rawVal.replace(',', '.');
+                        else if (rawVal.includes('.') && rawVal.split('.')[1].length === 3) rawVal = rawVal.replace(/\./g, '');
 
                         const amount = parseFloat(rawVal) || 0;
                         totalSum += amount;
+
+                        // Action Buttons Logic
+                        let actionHtml = `<div class="flex justify-center gap-2">`;
+                        if (phone.length > 5) {
+                            actionHtml += `<a href="tel:${phone}" class="bg-green-100 text-green-600 px-3 py-1 rounded-lg text-[9px] uppercase font-black border border-green-200 hover:bg-green-200">📞 Call</a>`;
+                        }
+                        if (email.includes('@')) {
+                            actionHtml += `<a href="mailto:${email}" class="bg-blue-100 text-blue-600 px-3 py-1 rounded-lg text-[9px] uppercase font-black border border-blue-200 hover:bg-blue-200">📧 Email</a>`;
+                        }
+                        if (phone.length <= 5 && !email.includes('@')) {
+                            actionHtml += `<span class="text-slate-300 text-[9px] uppercase font-black">No Contact</span>`;
+                        }
+                        actionHtml += `</div>`;
 
                         const tr = document.createElement('tr');
                         tr.className = "hover:bg-blue-50 transition-all border-b border-slate-50";
                         tr.innerHTML = `
                             <td class="p-5 uppercase text-sm font-black text-slate-700 tracking-tighter">${name}</td>
                             <td class="p-5 text-right font-mono text-blue-800 font-black italic">€${amount.toLocaleString('de-DE', {minimumFractionDigits: 2})}</td>
-                            <td class="p-5 text-center"><span class="bg-green-100 text-green-600 px-3 py-1 rounded text-[9px] uppercase font-black border border-green-200 shadow-sm">Updated</span></td>
+                            <td class="p-5 text-center">${actionHtml}</td>
                         `;
                         tableBody.appendChild(tr);
                     }
@@ -137,7 +119,6 @@
                 document.getElementById('liveTotalDisplay').innerText = `€${totalSum.toLocaleString('de-DE', {minimumFractionDigits: 2})}`;
                 document.getElementById('syncStatus').innerText = "● LIVE SYSTEM ACTIVE";
             } catch (error) {
-                console.error("Error:", error);
                 document.getElementById('syncStatus').innerText = "● SYNC ERROR";
             }
         }
@@ -153,6 +134,7 @@
                 }
             }
         }
+        setInterval(fetchExcelData, 60000); // Auto-update every 1 minute
     </script>
 </body>
 </html>

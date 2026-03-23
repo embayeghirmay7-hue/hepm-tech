@@ -10,15 +10,15 @@
     <div id="loginPage" class="flex items-center justify-center min-h-screen p-4">
         <div class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-md border-t-8 border-blue-600 text-center">
             <h1 class="text-3xl font-black text-blue-900 mb-6 italic tracking-tighter uppercase">HEPM-TECH</h1>
-            <input type="password" id="passInput" placeholder="Password: Girmay2026" class="w-full p-4 border-2 rounded-xl mb-4 text-center font-bold outline-none focus:border-blue-600">
-            <button onclick="checkPass()" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-blue-700 transition-all uppercase tracking-widest">Login</button>
+            <input type="password" id="passInput" placeholder="Password: Girmay2026" class="w-full p-4 border-2 rounded-xl mb-4 text-center font-bold outline-none">
+            <button onclick="checkPass()" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-blue-700 transition-all uppercase">Login</button>
         </div>
     </div>
 
     <div id="dashboard" class="hidden">
         <nav class="bg-blue-900 p-5 text-white flex justify-between items-center shadow-lg sticky top-0 z-50">
             <h2 class="text-xl font-black italic tracking-tighter uppercase">🚀 HEPM-TECH LIVE</h2>
-            <button onclick="location.reload()" class="bg-red-500 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg">Logout</button>
+            <button onclick="location.reload()" class="bg-red-500 px-4 py-2 rounded-xl text-[10px] font-black uppercase">Logout</button>
         </nav>
 
         <div class="max-w-6xl mx-auto p-4 md:p-8">
@@ -27,13 +27,13 @@
                     <p class="text-gray-400 text-[10px] mb-2 uppercase font-black tracking-widest italic">Corrected Total Live Sum</p>
                     <h2 id="liveTotalDisplay" class="text-5xl font-black text-yellow-400 font-mono italic">€0.00</h2>
                 </div>
-                <p id="syncStatus" class="text-blue-900 font-black text-[10px] uppercase italic tracking-[0.2em] animate-pulse">● System Syncing...</p>
+                <p id="syncStatus" class="text-blue-900 font-black text-[10px] uppercase italic animate-pulse">● System Syncing...</p>
             </div>
 
             <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
                 <div class="bg-blue-700 p-6 flex flex-col md:flex-row justify-between items-center gap-4">
                     <h3 class="text-white font-black uppercase tracking-widest italic text-sm">👥 Live Register & Actions</h3>
-                    <input type="text" id="searchInput" onkeyup="searchNames()" placeholder="🔍 Search name..." class="p-3 rounded-xl border-none outline-none w-full md:w-64 font-bold shadow-inner text-slate-800">
+                    <input type="text" id="searchInput" onkeyup="searchNames()" placeholder="🔍 Search name..." class="p-3 rounded-xl border-none outline-none w-full md:w-64 font-bold text-slate-800">
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left">
@@ -44,9 +44,7 @@
                                 <th class="p-5 text-center">Quick Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="excelTableBody" class="divide-y divide-slate-100 font-bold italic">
-                            <tr><td colspan="3" class="p-10 text-center text-slate-400 animate-pulse uppercase font-black text-xs italic">Loading Live Data...</td></tr>
-                        </tbody>
+                        <tbody id="excelTableBody" class="divide-y divide-slate-100 font-bold italic"></tbody>
                     </table>
                 </div>
             </div>
@@ -75,7 +73,6 @@
 
                 rows.forEach((row, index) => {
                     const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                    
                     if (columns.length >= 2) {
                         const name = columns[0].replace(/"/g, '').trim();
                         let rawVal = columns[1].replace(/"/g, '').replace('€', '').trim();
@@ -84,60 +81,39 @@
                         
                         if (name.toLowerCase() === "name" || name === "") return;
 
-                        // --- IMPROVED LOGIC FOR GERMAN NUMBERS ---
-                        let amount = 0;
-                        if (rawVal) {
-                            // If it has both . and , (e.g. 1.300,50)
-                            if (rawVal.includes('.') && rawVal.includes(',')) {
-                                amount = parseFloat(rawVal.replace(/\./g, '').replace(',', '.'));
-                            } 
-                            // If it only has , (e.g. 1300,50)
-                            else if (rawVal.includes(',')) {
-                                amount = parseFloat(rawVal.replace(',', '.'));
-                            }
-                            // If it only has . (e.g. 1.300)
-                            else if (rawVal.includes('.')) {
-                                let parts = rawVal.split('.');
-                                // If last part is 3 digits, it's a thousand separator (1.300)
-                                if (parts[parts.length-1].length === 3) {
-                                    amount = parseFloat(rawVal.replace(/\./g, ''));
-                                } else {
-                                    amount = parseFloat(rawVal);
-                                }
-                            } else {
-                                amount = parseFloat(rawVal);
-                            }
+                        // --- ULTIMATE NUMBER PARSER ---
+                        let cleanVal = rawVal;
+                        // Remove thousand separator dots (1.300 -> 1300)
+                        if (cleanVal.includes('.') && cleanVal.includes(',')) {
+                            cleanVal = cleanVal.replace(/\./g, '').replace(',', '.');
+                        } else if (cleanVal.includes(',')) {
+                            cleanVal = cleanVal.replace(',', '.');
+                        } else if (cleanVal.includes('.')) {
+                            let parts = cleanVal.split('.');
+                            if (parts[parts.length-1].length === 3) cleanVal = cleanVal.replace(/\./g, '');
                         }
-                        
-                        amount = isNaN(amount) ? 0 : amount;
+
+                        const amount = parseFloat(cleanVal) || 0;
                         totalSum += amount;
 
-                        // Action Buttons Logic
                         let actionHtml = `<div class="flex justify-center gap-2">`;
-                        if (phone.length > 5) {
-                            actionHtml += `<a href="tel:${phone}" class="bg-green-100 text-green-600 px-3 py-1 rounded-lg text-[9px] uppercase font-black border border-green-200 hover:bg-green-200 shadow-sm">📞 Call</a>`;
-                        }
-                        if (email.includes('@')) {
-                            actionHtml += `<a href="mailto:${email}" class="bg-blue-100 text-blue-600 px-3 py-1 rounded-lg text-[9px] uppercase font-black border border-blue-200 hover:bg-blue-200 shadow-sm">📧 Email</a>`;
-                        }
+                        if (phone.length > 5) actionHtml += `<a href="tel:${phone}" class="bg-green-100 text-green-600 px-3 py-1 rounded-lg text-[9px] font-black hover:bg-green-200">📞 Call</a>`;
+                        if (email.includes('@')) actionHtml += `<a href="mailto:${email}" class="bg-blue-100 text-blue-600 px-3 py-1 rounded-lg text-[9px] font-black hover:bg-blue-200">📧 Email</a>`;
                         actionHtml += `</div>`;
 
                         const tr = document.createElement('tr');
-                        tr.className = "hover:bg-blue-50 transition-all border-b border-slate-50";
+                        tr.className = "hover:bg-blue-50 border-b border-slate-50";
                         tr.innerHTML = `
-                            <td class="p-5 uppercase text-sm font-black text-slate-700 tracking-tighter italic">${name}</td>
+                            <td class="p-5 uppercase text-sm font-black text-slate-700">${name}</td>
                             <td class="p-5 text-right font-mono text-blue-800 font-black italic">€${amount.toLocaleString('de-DE', {minimumFractionDigits: 2})}</td>
                             <td class="p-5 text-center">${actionHtml}</td>
                         `;
                         tableBody.appendChild(tr);
                     }
                 });
-
                 document.getElementById('liveTotalDisplay').innerText = `€${totalSum.toLocaleString('de-DE', {minimumFractionDigits: 2})}`;
                 document.getElementById('syncStatus').innerText = "● LIVE SYSTEM ACTIVE";
-            } catch (error) {
-                document.getElementById('syncStatus').innerText = "● SYNC ERROR";
-            }
+            } catch (error) { document.getElementById('syncStatus').innerText = "● SYNC ERROR"; }
         }
 
         function searchNames() {

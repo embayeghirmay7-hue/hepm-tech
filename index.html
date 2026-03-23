@@ -27,28 +27,28 @@
                     <p class="text-gray-400 text-[10px] mb-2 uppercase font-black tracking-widest italic">Total Live Balance Sum</p>
                     <h2 id="liveTotalDisplay" class="text-5xl font-black text-yellow-400 font-mono italic">€0.00</h2>
                 </div>
-                <p id="syncStatus" class="text-blue-900 font-black text-[10px] uppercase italic tracking-[0.2em] animate-pulse">● Connecting...</p>
+                <p id="syncStatus" class="text-blue-900 font-black text-[10px] uppercase italic tracking-[0.2em] animate-pulse">● System Syncing...</p>
             </div>
 
             <div class="grid gap-6 grid-cols-1 md:grid-cols-3 mb-12">
                 <div class="bg-white p-6 rounded-3xl shadow-xl border-t-8 border-orange-500 hover:shadow-2xl transition-all">
-                    <h3 class="text-xl font-black text-gray-800 mb-3 uppercase tracking-tighter italic">EOS (VKB)</h3>
+                    <h3 class="text-xl font-black text-gray-800 mb-3 uppercase tracking-tighter italic italic">EOS (VKB)</h3>
                     <div class="space-y-2">
-                        <a href="tel:05618002450" class="flex items-center p-3 bg-blue-50 text-blue-700 rounded-xl font-bold text-xs hover:bg-blue-100">📞 0561 800-2450</a>
+                        <a href="tel:05618002450" class="flex items-center p-3 bg-blue-50 text-blue-700 rounded-xl font-bold text-xs hover:bg-blue-100 italic">📞 0561 800-2450</a>
                         <a href="mailto:service@eos-solutions.com" class="flex items-center p-3 bg-slate-50 text-slate-600 rounded-xl font-bold text-[10px] hover:bg-slate-100 italic">📧 Email EOS</a>
                     </div>
                 </div>
                 <div class="bg-white p-6 rounded-3xl shadow-xl border-t-8 border-orange-500 hover:shadow-2xl transition-all">
-                    <h3 class="text-xl font-black text-gray-800 mb-3 uppercase tracking-tighter italic">Riverty</h3>
+                    <h3 class="text-xl font-black text-gray-800 mb-3 uppercase tracking-tighter italic italic italic">Riverty</h3>
                     <div class="space-y-2">
-                        <a href="tel:0722150400" class="flex items-center p-3 bg-blue-50 text-blue-700 rounded-xl font-bold text-xs hover:bg-blue-100">📞 07221 5040-0</a>
+                        <a href="tel:0722150400" class="flex items-center p-3 bg-blue-50 text-blue-700 rounded-xl font-bold text-xs hover:bg-blue-100 italic">📞 07221 5040-0</a>
                         <a href="mailto:customercare@riverty.com" class="flex items-center p-3 bg-slate-50 text-slate-600 rounded-xl font-bold text-[10px] hover:bg-slate-100 italic">📧 Email Riverty</a>
                     </div>
                 </div>
                 <div class="bg-white p-6 rounded-3xl shadow-xl border-t-8 border-blue-900 hover:shadow-2xl transition-all text-center">
-                    <h3 class="text-xl font-black text-gray-800 mb-3 uppercase tracking-tighter italic">Deutsche Bank</h3>
+                    <h3 class="text-xl font-black text-gray-800 mb-3 uppercase tracking-tighter italic italic text-center">Deutsche Bank</h3>
                     <div class="space-y-2">
-                        <a href="tel:06991010000" class="flex items-center p-3 bg-blue-50 text-blue-700 rounded-xl font-bold text-xs hover:bg-blue-100 justify-center">📞 069 910-10000</a>
+                        <a href="tel:06991010000" class="flex items-center p-3 bg-blue-50 text-blue-700 rounded-xl font-bold text-xs hover:bg-blue-100 italic justify-center">📞 069 910-10000</a>
                         <a href="mailto:service.center@db.com" class="flex items-center p-3 bg-slate-50 text-slate-600 rounded-xl font-bold text-[10px] hover:bg-slate-100 italic justify-center">📧 Email DB</a>
                     </div>
                 </div>
@@ -69,7 +69,7 @@
                             </tr>
                         </thead>
                         <tbody id="excelTableBody" class="divide-y divide-slate-100 font-bold italic">
-                            <tr><td colspan="3" class="p-10 text-center text-slate-400 animate-pulse uppercase font-black text-xs">Loading Live Data...</td></tr>
+                            <tr><td colspan="3" class="p-10 text-center text-slate-400 animate-pulse uppercase font-black text-xs italic">Loading Live Data...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -78,7 +78,8 @@
     </div>
 
     <script>
-        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT05rM698Fulyxz7luxuGeJ5b_9-NN9AYJ8KoXLL2rjYnRSnnB3S83XLCGx2noeQA3RpyGAXILK1ZiI/pub?gid=816503930&single=true&output=csv'; 
+        // UPDATED MASTER LINK
+        const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT05rM698Fulyxz7luxuGeJ5b_9-NN9AYJ8KoXLL2rjYnRSnnB3S83XLCGx2noeQA3RpyGAXILK1ZiI/pub?output=csv'; 
 
         function checkPass() {
             if(document.getElementById('passInput').value === "Girmay2026") {
@@ -92,35 +93,30 @@
             try {
                 const response = await fetch(SHEET_CSV_URL);
                 const data = await response.text();
-                // Improved Row Splitting
                 const rows = data.split(/\r?\n/); 
                 const tableBody = document.getElementById('excelTableBody');
                 tableBody.innerHTML = '';
                 let totalSum = 0;
 
                 rows.forEach((row, index) => {
-                    // Improved Column Splitting (handling commas inside quotes)
-                    const columns = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
+                    // This regex correctly splits columns even if they have commas inside quotes
+                    const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                     
-                    if (columns && columns.length >= 2) {
+                    if (columns.length >= 2) {
                         const name = columns[0].replace(/"/g, '').trim();
                         let rawVal = columns[1].replace(/"/g, '').replace('€', '').trim();
                         
-                        // Skip header row
-                        if (name.toLowerCase() === "name") return;
+                        // Ignore header or empty rows
+                        if (name.toLowerCase() === "name" || name === "") return;
 
-                        // SMART NUMERIC CLEANING (Fixes the €0.00 issue)
-                        // If it has dot and comma (1.200,50)
+                        // ULTIMATE NUMERIC CLEANING (Fixes the €0.00 and €1.000 issue)
                         if (rawVal.includes('.') && rawVal.includes(',')) {
                             rawVal = rawVal.replace(/\./g, '').replace(',', '.');
-                        } 
-                        // If it only has comma (1200,50)
-                        else if (rawVal.includes(',')) {
+                        } else if (rawVal.includes(',')) {
                             rawVal = rawVal.replace(',', '.');
-                        }
-                        // If it has a dot but looks like thousands (1.200)
-                        else if (rawVal.includes('.')) {
+                        } else if (rawVal.includes('.')) {
                             let parts = rawVal.split('.');
+                            // If the last part has 3 digits, it's likely a thousands separator
                             if (parts[parts.length-1].length === 3) rawVal = rawVal.replace(/\./g, '');
                         }
 

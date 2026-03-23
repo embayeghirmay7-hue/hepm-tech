@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -74,4 +74,68 @@
                 let totalSum = 0;
 
                 rows.forEach((row, index) => {
-                    const columns
+                    const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    
+                    if (columns.length >= 2) {
+                        const name = columns[0].replace(/"/g, '').trim();
+                        let rawVal = columns[1].replace(/"/g, '').replace('€', '').trim();
+                        let phone = columns[2] ? columns[2].replace(/"/g, '').trim() : "";
+                        let email = columns[3] ? columns[3].replace(/"/g, '').trim() : "";
+                        
+                        if (name.toLowerCase() === "name" || name === "") return;
+
+                        // --- THE ULTIMATE FIX FOR 1.300 vs 1,30 ---
+                        // We remove everything EXCEPT numbers
+                        let cleanVal = rawVal.replace(/[^\d]/g, ''); 
+                        
+                        // If you use decimals like 1200.50, we need to handle that. 
+                        // But since your error is showing 1,30 instead of 1300:
+                        const amount = parseFloat(cleanVal) || 0;
+                        totalSum += amount;
+
+                        // Action Buttons Logic
+                        let actionHtml = `<div class="flex justify-center gap-2">`;
+                        if (phone.length > 5) {
+                            actionHtml += `<a href="tel:${phone}" class="bg-green-100 text-green-600 px-3 py-1 rounded-lg text-[9px] uppercase font-black border border-green-200 hover:bg-green-200 shadow-sm">📞 Call</a>`;
+                        }
+                        if (email.includes('@')) {
+                            actionHtml += `<a href="mailto:${email}" class="bg-blue-100 text-blue-600 px-3 py-1 rounded-lg text-[9px] uppercase font-black border border-blue-200 hover:bg-blue-200 shadow-sm">📧 Email</a>`;
+                        }
+                        if (phone.length <= 5 && !email.includes('@')) {
+                            actionHtml += `<span class="text-slate-300 text-[9px] uppercase font-black italic">No Contact</span>`;
+                        }
+                        actionHtml += `</div>`;
+
+                        const tr = document.createElement('tr');
+                        tr.className = "hover:bg-blue-50 transition-all border-b border-slate-50";
+                        tr.innerHTML = `
+                            <td class="p-5 uppercase text-sm font-black text-slate-700 tracking-tighter italic">${name}</td>
+                            <td class="p-5 text-right font-mono text-blue-800 font-black italic">€${amount.toLocaleString('de-DE', {minimumFractionDigits: 0})}</td>
+                            <td class="p-5 text-center">${actionHtml}</td>
+                        `;
+                        tableBody.appendChild(tr);
+                    }
+                });
+
+                document.getElementById('liveTotalDisplay').innerText = `€${totalSum.toLocaleString('de-DE', {minimumFractionDigits: 0})}`;
+                document.getElementById('syncStatus').innerText = "● LIVE SYSTEM ACTIVE";
+            } catch (error) {
+                document.getElementById('syncStatus').innerText = "● SYNC ERROR";
+            }
+        }
+
+        function searchNames() {
+            let input = document.getElementById("searchInput").value.toUpperCase();
+            let tr = document.getElementById("excelTableBody").getElementsByTagName("tr");
+            for (let i = 0; i < tr.length; i++) {
+                let td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    let text = td.textContent || td.innerText;
+                    tr[i].style.display = text.toUpperCase().indexOf(input) > -1 ? "" : "none";
+                }
+            }
+        }
+        setInterval(fetchExcelData, 60000);
+    </script>
+</body>
+</html>

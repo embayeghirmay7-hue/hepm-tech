@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HEPM-TECH | Ultimate Contact Dashboard</title>
+    <title>HEPM-TECH | Official Audit Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-100 min-h-screen pb-20 font-sans text-slate-900">
     <div id="loginPage" class="flex items-center justify-center min-h-screen p-4">
         <div class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-md border-t-8 border-blue-600 text-center">
-            <h1 class="text-3xl font-black text-blue-900 mb-6 italic tracking-tighter uppercase">HEPM-TECH</h1>
+            <h1 class="text-3xl font-black text-blue-900 mb-6 italic tracking-tighter uppercase font-mono">HEPM-TECH</h1>
             <input type="password" id="passInput" placeholder="Password: Girmay2026" class="w-full p-4 border-2 rounded-xl mb-4 text-center font-bold outline-none focus:border-blue-600">
             <button onclick="checkPass()" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-blue-700 transition-all uppercase tracking-widest">Login</button>
         </div>
@@ -24,7 +24,7 @@
         <div class="max-w-6xl mx-auto p-4 md:p-8">
             <div class="flex flex-col items-center mb-10 text-center">
                 <div class="bg-slate-800 text-white p-8 rounded-3xl shadow-2xl border-b-8 border-yellow-400 min-w-[320px] mb-4">
-                    <p class="text-gray-400 text-[10px] mb-2 uppercase font-black tracking-widest italic">Live Excel Total Sum</p>
+                    <p class="text-gray-400 text-[10px] mb-2 uppercase font-black tracking-widest italic">Corrected Total Live Sum</p>
                     <h2 id="liveTotalDisplay" class="text-5xl font-black text-yellow-400 font-mono italic">€0.00</h2>
                 </div>
                 <p id="syncStatus" class="text-blue-900 font-black text-[10px] uppercase italic tracking-[0.2em] animate-pulse">● System Syncing...</p>
@@ -45,7 +45,7 @@
                             </tr>
                         </thead>
                         <tbody id="excelTableBody" class="divide-y divide-slate-100 font-bold italic">
-                            <tr><td colspan="3" class="p-10 text-center text-slate-400 animate-pulse uppercase font-black text-xs">Loading Live Data...</td></tr>
+                            <tr><td colspan="3" class="p-10 text-center text-slate-400 animate-pulse uppercase font-black text-xs italic">Loading Live Data...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -74,67 +74,4 @@
                 let totalSum = 0;
 
                 rows.forEach((row, index) => {
-                    const columns = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                    
-                    if (columns.length >= 2) {
-                        const name = columns[0].replace(/"/g, '').trim();
-                        let rawVal = columns[1].replace(/"/g, '').replace('€', '').trim();
-                        let phone = columns[2] ? columns[2].replace(/"/g, '').trim() : "";
-                        let email = columns[3] ? columns[3].replace(/"/g, '').trim() : "";
-                        
-                        if (name.toLowerCase() === "name" || name === "") return;
-
-                        // Smart Numeric Cleaning
-                        if (rawVal.includes('.') && rawVal.includes(',')) rawVal = rawVal.replace(/\./g, '').replace(',', '.');
-                        else if (rawVal.includes(',')) rawVal = rawVal.replace(',', '.');
-                        else if (rawVal.includes('.') && rawVal.split('.')[1].length === 3) rawVal = rawVal.replace(/\./g, '');
-
-                        const amount = parseFloat(rawVal) || 0;
-                        totalSum += amount;
-
-                        // Action Buttons Logic
-                        let actionHtml = `<div class="flex justify-center gap-2">`;
-                        if (phone.length > 5) {
-                            actionHtml += `<a href="tel:${phone}" class="bg-green-100 text-green-600 px-3 py-1 rounded-lg text-[9px] uppercase font-black border border-green-200 hover:bg-green-200">📞 Call</a>`;
-                        }
-                        if (email.includes('@')) {
-                            actionHtml += `<a href="mailto:${email}" class="bg-blue-100 text-blue-600 px-3 py-1 rounded-lg text-[9px] uppercase font-black border border-blue-200 hover:bg-blue-200">📧 Email</a>`;
-                        }
-                        if (phone.length <= 5 && !email.includes('@')) {
-                            actionHtml += `<span class="text-slate-300 text-[9px] uppercase font-black">No Contact</span>`;
-                        }
-                        actionHtml += `</div>`;
-
-                        const tr = document.createElement('tr');
-                        tr.className = "hover:bg-blue-50 transition-all border-b border-slate-50";
-                        tr.innerHTML = `
-                            <td class="p-5 uppercase text-sm font-black text-slate-700 tracking-tighter">${name}</td>
-                            <td class="p-5 text-right font-mono text-blue-800 font-black italic">€${amount.toLocaleString('de-DE', {minimumFractionDigits: 2})}</td>
-                            <td class="p-5 text-center">${actionHtml}</td>
-                        `;
-                        tableBody.appendChild(tr);
-                    }
-                });
-
-                document.getElementById('liveTotalDisplay').innerText = `€${totalSum.toLocaleString('de-DE', {minimumFractionDigits: 2})}`;
-                document.getElementById('syncStatus').innerText = "● LIVE SYSTEM ACTIVE";
-            } catch (error) {
-                document.getElementById('syncStatus').innerText = "● SYNC ERROR";
-            }
-        }
-
-        function searchNames() {
-            let input = document.getElementById("searchInput").value.toUpperCase();
-            let tr = document.getElementById("excelTableBody").getElementsByTagName("tr");
-            for (let i = 0; i < tr.length; i++) {
-                let td = tr[i].getElementsByTagName("td")[0];
-                if (td) {
-                    let text = td.textContent || td.innerText;
-                    tr[i].style.display = text.toUpperCase().indexOf(input) > -1 ? "" : "none";
-                }
-            }
-        }
-        setInterval(fetchExcelData, 60000); // Auto-update every 1 minute
-    </script>
-</body>
-</html>
+                    const columns

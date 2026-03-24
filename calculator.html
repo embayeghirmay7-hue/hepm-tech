@@ -3,68 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HAKEY | Smart Tracker</title>
+    <title>HAKEY | Inventory & Profit</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="bg-black text-white font-sans min-h-screen flex items-center justify-center p-4">
+<body class="bg-[#0a0a0a] text-white font-sans min-h-screen flex items-center justify-center p-4">
 
-    <div class="bg-slate-900 p-8 rounded-[2.5rem] shadow-2xl w-full max-w-md border border-yellow-500/30">
-        <h1 class="text-xl font-black italic mb-6 text-center text-yellow-500 uppercase tracking-tighter">HAKEY STOCK TRACKER 📈</h1>
+    <div class="bg-[#111] p-8 rounded-[3rem] shadow-2xl w-full max-w-2xl border border-yellow-600/20">
+        <h1 class="text-2xl font-black italic mb-8 text-center text-yellow-500 uppercase tracking-tighter">HAKEY STOCK CONTROL 📦</h1>
         
-        <div class="space-y-4">
-            <div class="bg-black/50 p-4 rounded-2xl border border-slate-800">
-                <label class="block text-[9px] font-bold uppercase text-slate-500 mb-2">Bulk Buying Price (£1800?)</label>
-                <input type="number" id="bulkCost" oninput="calculate()" placeholder="e.g. 1800" class="w-full bg-transparent text-xl font-bold text-white outline-none">
-                
-                <label class="block text-[9px] font-bold uppercase text-slate-500 mt-3 mb-2">Total Weight (Grams)</label>
-                <input type="number" id="totalWeight" oninput="calculate()" placeholder="e.g. 500" class="w-full bg-transparent text-xl font-bold text-white outline-none">
-            </div>
-
-            <hr class="border-slate-800 my-4">
-
-            <div>
-                <label class="block text-[9px] font-bold uppercase text-slate-500 mb-2">Sale Weight (e.g. 3.5)</label>
-                <input type="number" id="saleWeight" oninput="calculate()" placeholder="3.5" class="w-full bg-black border-2 border-slate-800 p-4 rounded-2xl text-xl font-bold text-yellow-500 outline-none focus:border-yellow-500">
-            </div>
-
-            <div>
-                <label class="block text-[9px] font-bold uppercase text-slate-500 mb-2">Retail Sale Price (£)</label>
-                <input type="number" id="salePrice" oninput="calculate()" placeholder="40" class="w-full bg-black border-2 border-slate-800 p-4 rounded-2xl text-xl font-bold text-green-500 outline-none focus:border-green-500">
-            </div>
-
-            <div class="pt-6 space-y-3">
-                <div class="flex justify-between items-center text-sm font-bold">
-                    <span class="text-slate-500 uppercase">Cost of this portion:</span>
-                    <span id="portionCost" class="text-red-400">£0.00</span>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            <div class="space-y-5">
+                <div class="bg-black/40 p-5 rounded-3xl border border-white/5">
+                    <label class="block text-[10px] font-bold uppercase text-slate-500 mb-2">Total Bag Stock (Grams)</label>
+                    <input type="number" id="totalStock" oninput="calculate()" placeholder="10000" class="w-full bg-transparent text-2xl font-black text-white outline-none">
                 </div>
-                <div class="flex justify-between items-center bg-yellow-500/10 p-5 rounded-2xl border border-yellow-500/20">
-                    <span class="text-sm font-black uppercase text-yellow-500 tracking-widest">Net Profit:</span>
-                    <span id="netProfit" class="text-3xl font-black text-white">£0.00</span>
+
+                <div class="bg-black/40 p-5 rounded-3xl border border-white/5">
+                    <label class="block text-[10px] font-bold uppercase text-slate-500 mb-2">Buying Price (£ for bag)</label>
+                    <input type="number" id="bulkCost" oninput="calculate()" placeholder="1800" class="w-full bg-transparent text-2xl font-black text-white outline-none">
+                </div>
+
+                <div class="bg-yellow-500/5 p-5 rounded-3xl border border-yellow-500/20">
+                    <label class="block text-[10px] font-bold uppercase text-yellow-500 mb-2">Current Sale (Grams)</label>
+                    <input type="number" id="saleWeight" oninput="calculate()" placeholder="3.5" class="w-full bg-transparent text-3xl font-black text-white outline-none">
+                    
+                    <label class="block text-[10px] font-bold uppercase text-yellow-500 mt-4 mb-2">Sale Price (£)</label>
+                    <input type="number" id="salePrice" oninput="calculate()" placeholder="40" class="w-full bg-transparent text-3xl font-black text-green-500 outline-none">
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <div class="bg-blue-600/10 border border-blue-500/30 p-6 rounded-[2.5rem] text-center">
+                    <span class="text-[10px] font-black uppercase text-blue-400 tracking-widest">Remaining Stock</span>
+                    <div id="remainingStock" class="text-4xl font-black mt-2 text-white">10,000g</div>
+                    <div class="w-full bg-blue-900/30 h-2 rounded-full mt-4 overflow-hidden">
+                        <div id="stockBar" class="bg-blue-500 h-full w-full transition-all duration-500"></div>
+                    </div>
+                </div>
+
+                <div class="bg-green-600/10 border border-green-500/30 p-6 rounded-[2.5rem] text-center">
+                    <span class="text-[10px] font-black uppercase text-green-400 tracking-widest">Net Profit</span>
+                    <div id="netProfit" class="text-4xl font-black mt-2 text-white">£0.00</div>
+                    <p class="text-[9px] text-slate-500 mt-2 uppercase">After cost deduction</p>
+                </div>
+
+                <div class="bg-white/5 p-4 rounded-2xl flex justify-between items-center px-6">
+                    <span class="text-[10px] font-bold text-slate-500 uppercase">Portion Cost:</span>
+                    <span id="portionCost" class="text-sm font-bold text-red-400">£0.00</span>
                 </div>
             </div>
         </div>
 
-        <button onclick="location.href='index.html'" class="w-full mt-8 bg-slate-800 text-white py-4 rounded-2xl font-bold text-[10px] uppercase tracking-widest hover:bg-yellow-500 hover:text-black transition-all">← Back to Hakey Shop</button>
+        <button onclick="location.href='index.html'" class="w-full mt-8 bg-slate-800 text-slate-400 py-4 rounded-2xl font-bold text-[10px] uppercase tracking-widest hover:bg-yellow-500 hover:text-black transition-all">
+            <i class="fa-solid fa-arrow-left mr-2"></i> Back to Hakey Shop
+        </button>
     </div>
 
     <script>
         function calculate() {
+            const totalStock = parseFloat(document.getElementById('totalStock').value) || 0;
             const bulkCost = parseFloat(document.getElementById('bulkCost').value) || 0;
-            const totalWeight = parseFloat(document.getElementById('totalWeight').value) || 0;
             const saleWeight = parseFloat(document.getElementById('saleWeight').value) || 0;
             const salePrice = parseFloat(document.getElementById('salePrice').value) || 0;
 
-            // 1. ዋጋ ሓንቲ ግራም (Cost per gram)
-            const costPerGram = totalWeight > 0 ? bulkCost / totalWeight : 0;
-            
-            // 2. እቲ ዝተሸጠ መጠን ክንደይ ወጻኢ ነይርዎ (Portion cost)
+            // 1. መኽሰብ ምሕሳብ (Profit Calculation)
+            const costPerGram = totalStock > 0 ? bulkCost / totalStock : 0;
             const portionCost = costPerGram * saleWeight;
-            
-            // 3. መኽሰብ (Net Profit)
             const profit = salePrice - portionCost;
 
+            // 2. ዝተረፈ ክንደይ እዩ (Stock Remaining)
+            const remaining = totalStock - saleWeight;
+            const stockPercent = totalStock > 0 ? (remaining / totalStock) * 100 : 0;
+
+            // Results Update
             document.getElementById('portionCost').innerText = `£${portionCost.toFixed(2)}`;
             document.getElementById('netProfit').innerText = `£${profit.toFixed(2)}`;
+            document.getElementById('remainingStock').innerText = `${remaining.toLocaleString()}g`;
+            
+            // Stock Bar Update
+            document.getElementById('stockBar').style.width = stockPercent + "%";
+            if(stockPercent < 20) {
+                document.getElementById('stockBar').classList.replace('bg-blue-500', 'bg-red-500');
+            } else {
+                document.getElementById('stockBar').classList.replace('bg-red-500', 'bg-blue-500');
+            }
         }
     </script>
 </body>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HAKEY | Profit Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black text-white font-sans min-h-screen flex items-center justify-center p-4">
+
+    <div class="bg-slate-900 p-8 rounded-[2.5rem] shadow-2xl w-full max-w-md border border-yellow-500/30">
+        <h1 class="text-2xl font-black italic mb-6 text-center text-yellow-500 uppercase tracking-tighter">HAKEY CALCULATOR 📈</h1>
+        
+        <div class="space-y-5">
+            <div>
+                <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Buying Price (Cost £)</label>
+                <input type="number" id="costPrice" oninput="calculate()" placeholder="0.00" class="w-full bg-black border-2 border-slate-800 p-4 rounded-2xl text-xl font-bold text-red-500 outline-none focus:border-yellow-500 transition-all">
+            </div>
+
+            <div>
+                <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Selling Price (Sale £)</label>
+                <input type="number" id="salePrice" oninput="calculate()" placeholder="0.00" class="w-full bg-black border-2 border-slate-800 p-4 rounded-2xl text-xl font-bold text-green-500 outline-none focus:border-yellow-500 transition-all">
+            </div>
+
+            <div class="pt-6 space-y-4 border-t border-slate-800">
+                <div class="flex justify-between items-center">
+                    <span class="text-[10px] font-bold uppercase text-slate-500">Total Revenue:</span>
+                    <span id="totalSaleDisp" class="text-2xl font-black text-green-500">£0.00</span>
+                </div>
+                <div class="flex justify-between items-center bg-yellow-500/5 p-4 rounded-2xl border border-yellow-500/10">
+                    <span class="text-[10px] font-bold uppercase text-yellow-500">Net Profit:</span>
+                    <span id="profitVal" class="text-2xl font-black text-white">£0.00</span>
+                </div>
+            </div>
+        </div>
+
+        <button onclick="location.href='index.html'" class="w-full mt-8 bg-slate-800 text-white py-4 rounded-2xl font-bold text-[10px] uppercase tracking-widest hover:bg-yellow-500 hover:text-black transition-all">← Back to Hakey Shop</button>
+    </div>
+
+    <script>
+        function calculate() {
+            const cost = parseFloat(document.getElementById('costPrice').value) || 0;
+            const sale = parseFloat(document.getElementById('salePrice').value) || 0;
+            const profit = sale - cost;
+            document.getElementById('totalSaleDisp').innerText = `£${sale.toFixed(2)}`;
+            document.getElementById('profitVal').innerText = `£${profit.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>

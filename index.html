@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="bg-slate-50 min-h-screen">
+<body class="bg-slate-50 min-h-screen font-sans">
 
     <div class="bg-yellow-400 text-black py-3 text-center sticky top-0 z-[100] border-b-2 border-black">
         <p class="font-black uppercase italic tracking-tighter text-[10px]">
@@ -25,12 +25,12 @@
     </main>
 
     <div id="orderModal" class="hidden fixed inset-0 bg-slate-900/95 backdrop-blur-md z-[110] flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-md rounded-[2.5rem] p-8 shadow-2xl text-center">
-            <h2 id="modalTitle" class="text-2xl font-black text-slate-800 mb-2 uppercase italic"></h2>
+        <div class="bg-white w-full max-w-md rounded-[2.5rem] p-8 shadow-2xl">
+            <h2 id="modalTitle" class="text-2xl font-black text-slate-800 mb-2 uppercase italic text-center"></h2>
             
             <div class="space-y-4 mt-4">
                 <div class="text-left">
-                    <label class="text-[9px] font-black uppercase text-slate-400 ml-2 text-center block">Select Weight & Price</label>
+                    <label class="text-[9px] font-black uppercase text-slate-400 ml-2 block text-center">Select Weight & Price</label>
                     <select id="weightSelect" class="w-full p-4 bg-slate-50 rounded-2xl font-black border-2 border-slate-100 outline-none focus:border-blue-500">
                         </select>
                 </div>
@@ -39,8 +39,8 @@
                 <input type="tel" id="custPhone" placeholder="Phone Number" class="w-full p-4 bg-slate-50 rounded-2xl font-bold">
                 <textarea id="custLoc" placeholder="Uxbridge Address (ኣድራሻ)" class="w-full p-4 bg-slate-50 rounded-2xl font-bold h-24 resize-none"></textarea>
                 
-                <button onclick="confirmAndSend()" class="w-full bg-slate-900 text-white p-5 rounded-3xl font-black shadow-xl uppercase">Order via WhatsApp</button>
-                <button onclick="closeModal()" class="w-full text-slate-300 font-bold text-[10px] uppercase mt-2">Cancel</button>
+                <button onclick="confirmAndSend()" class="w-full bg-slate-900 text-white p-5 rounded-3xl font-black shadow-xl uppercase">Confirm Order via WhatsApp</button>
+                <button onclick="closeModal()" class="w-full text-slate-300 font-bold text-[10px] uppercase mt-2 block mx-auto">Cancel</button>
             </div>
         </div>
     </div>
@@ -50,8 +50,10 @@
         const MY_PHONE = "447448700978";
         let currentProduct = {};
 
+        // እቲ Dropdown Menu ዳታ
         const MENU_DATA = {
             "rs 11": ["3.5g - £40", "7g - £70", "14g - £130"],
+            "rs11": ["3.5g - £40", "7g - £70", "14g - £130"], // ስፔስ እንተዘይብሉ እውን ንክሰርሕ
             "candy": ["3.5g - £30", "7g - £55", "14g - £110"],
             "shenron": ["3.5g - £30", "7g - £60", "14g - £120"],
             "gelato": ["3.5g - £25", "7g - £50", "14g - £100"],
@@ -78,11 +80,11 @@
                         card.className = "bg-white rounded-[2rem] border border-slate-100 p-2 flex flex-col shadow-sm";
                         card.innerHTML = `
                             <div class="h-44 md:h-64 overflow-hidden rounded-[1.8rem] bg-slate-100 mb-3">
-                                <img src="${img}" class="w-full h-full object-cover">
+                                <img src="${img}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/400?text=${name}'">
                             </div>
                             <div class="p-2 flex-grow flex flex-col">
-                                <h3 class="text-[10px] font-black uppercase text-slate-700 mb-3 h-8 overflow-hidden">${name}</h3>
-                                <button onclick="openModal('${name}')" class="mt-auto w-full bg-slate-900 text-white py-3 rounded-2xl text-[9px] font-black uppercase">Order</button>
+                                <h3 class="text-[10px] font-black uppercase text-slate-700 mb-3">${name}</h3>
+                                <button onclick="openModal('${name}')" class="mt-auto w-full bg-slate-900 text-white py-3 rounded-2xl text-[9px] font-black uppercase tracking-widest shadow-lg">Order</button>
                             </div>
                         `;
                         grid.appendChild(card);
@@ -98,8 +100,10 @@
             select.innerHTML = '';
 
             let found = false;
+            const lowerName = name.toLowerCase();
+
             Object.keys(MENU_DATA).forEach(key => {
-                if(name.toLowerCase().includes(key)) {
+                if(lowerName.includes(key)) {
                     MENU_DATA[key].forEach(opt => {
                         const o = document.createElement('option');
                         o.text = opt; o.value = opt;
@@ -126,7 +130,7 @@
             const l = document.getElementById('custLoc').value.trim();
             const w = document.getElementById('weightSelect').value;
             if(!n || !p || !l) { alert("Fill all!"); return; }
-            const msg = `*NEW ORDER*\nProduct: ${currentProduct.name}\nSelection: ${w}\n\nCustomer: ${n}\nPhone: ${p}\nLoc: ${l}`;
+            const msg = `*NEW ORDER*\nProduct: ${currentProduct.name}\nSelection: ${w}\n\nCustomer: ${n}\nPhone: ${p}\nAddress: ${l}`;
             window.open(`https://wa.me/${MY_PHONE}?text=${encodeURIComponent(msg)}`, '_blank');
         }
         window.onload = loadShop;

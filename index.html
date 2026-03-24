@@ -3,82 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HEPM-TECH | Pro Tools</title>
+    <title>HEPM-TECH | Uxbridge Shop</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="bg-[#0f172a] text-white font-sans min-h-screen">
+<body class="bg-slate-50 min-h-screen font-sans">
 
-    <div class="flex items-center justify-center p-6">
-        <div class="bg-[#1e293b] p-8 rounded-[2.5rem] shadow-2xl w-full max-w-md border border-slate-700">
-            <h1 class="text-2xl font-black italic mb-6 text-center text-yellow-400 uppercase">Profit Calculator 📈</h1>
+    <div class="bg-yellow-400 text-black py-3 sticky top-0 z-[100] border-b-2 border-black font-black uppercase italic text-[10px] text-center">
+        ⚠️ NOTICE: Delivering in UXBRIDGE Only
+    </div>
+
+    <nav class="bg-white p-4 border-b flex justify-between items-center sticky top-[42px] z-50 shadow-sm">
+        <h1 class="text-xl font-black italic text-slate-800">HEPM-TECH</h1>
+        <button onclick="location.href='calculator.html'" class="text-[10px] font-bold bg-slate-100 px-3 py-1 rounded-full uppercase">Profit Calc</button>
+    </nav>
+
+    <main class="max-w-6xl mx-auto p-4 md:p-10">
+        <div id="productGrid" class="grid grid-cols-2 md:grid-cols-4 gap-6"></div>
+    </main>
+
+    <div id="orderModal" class="hidden fixed inset-0 bg-slate-900/95 backdrop-blur-md z-[110] flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-md rounded-[2.5rem] p-8 shadow-2xl relative overflow-y-auto max-h-[95vh]">
+            <h2 id="modalTitle" class="text-2xl font-black text-slate-800 mb-6 uppercase italic text-center"></h2>
             
-            <div class="space-y-6">
-                <div>
-                    <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Buying Price (£)</label>
-                    <input type="number" id="costPrice" oninput="calculate()" placeholder="0.00" class="w-full bg-[#0f172a] border-none p-4 rounded-2xl text-xl font-bold text-white outline-none">
+            <div class="space-y-4">
+                <div class="text-left">
+                    <label class="text-[9px] font-black uppercase text-slate-400 block text-center mb-1">Select Weight & Price</label>
+                    <select id="weightSelect" class="w-full p-4 bg-slate-50 rounded-2xl font-black border-2 border-slate-100 outline-none focus:border-blue-500"></select>
                 </div>
 
-                <div>
-                    <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Selling Price (£)</label>
-                    <input type="number" id="salePrice" oninput="calculate()" placeholder="0.00" class="w-full bg-[#0f172a] border-none p-4 rounded-2xl text-xl font-bold text-white outline-none">
+                <input type="text" id="custName" placeholder="Full Name" class="w-full p-4 bg-slate-50 rounded-2xl font-bold border-none outline-none">
+                <input type="tel" id="custPhone" placeholder="Phone Number" class="w-full p-4 bg-slate-50 rounded-2xl font-bold border-none outline-none">
+                
+                <div class="space-y-2 border-t pt-4">
+                    <label class="text-[9px] font-black uppercase text-slate-400 block text-center">Delivery Address</label>
+                    <input type="text" id="custStreet" placeholder="Street Name & House No." class="w-full p-4 bg-slate-100 rounded-2xl font-bold border-none outline-none">
+                    <input type="text" id="custPostcode" placeholder="Postcode (UB...)" class="w-full p-4 bg-slate-100 rounded-2xl font-bold border-none outline-none uppercase">
                 </div>
-
-                <div class="grid grid-cols-2 gap-4 pt-4">
-                    <div class="bg-[#0f172a] p-4 rounded-2xl text-center">
-                        <p class="text-[9px] font-bold text-slate-500 uppercase">Profit</p>
-                        <p id="profitVal" class="text-2xl font-black text-white">£0.00</p>
-                    </div>
-                    <div class="bg-[#0f172a] p-4 rounded-2xl text-center">
-                        <p class="text-[9px] font-bold text-slate-500 uppercase">Margin</p>
-                        <p id="marginVal" class="text-2xl font-black text-yellow-400">0%</p>
-                    </div>
-                </div>
+                
+                <button onclick="confirmAndSend()" class="w-full bg-slate-900 text-white p-5 rounded-3xl font-black uppercase shadow-xl hover:bg-green-600 transition-all active:scale-95">
+                    Confirm Order <i class="fab fa-whatsapp ml-2"></i>
+                </button>
+                <button onclick="closeModal()" class="w-full text-slate-300 font-bold text-[10px] uppercase text-center mt-2">Cancel</button>
             </div>
         </div>
     </div>
 
-    <hr class="border-slate-800 my-10">
-
-    <div class="text-center pb-20">
-        <p class="text-slate-400 text-sm mb-4">Click below to go to your Shop</p>
-        <button onclick="location.href='index.html'" class="bg-yellow-400 text-black px-10 py-4 rounded-full font-black uppercase italic shadow-xl">Open HEPM Shop</button>
-    </div>
-
     <script>
-        // --- Calculator Logic ---
-        function calculate() {
-            const cost = parseFloat(document.getElementById('costPrice').value) || 0;
-            const sale = parseFloat(document.getElementById('salePrice').value) || 0;
-            const profit = sale - cost;
-            const margin = sale > 0 ? (profit / sale) * 100 : 0;
+        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQH4oZK0msDak510wlcSWZf0Oo39Ncj3pZsSZkU2YhO4XnSEH6F6UrX9AqmBKHSiMRBcXzNodNb0hzR/pub?output=csv';
+        const MY_PHONE = "447448700978"; 
+        let orderCount = localStorage.getItem('hepm_order_count') || 0;
 
-            document.getElementById('profitVal').innerText = `£${profit.toFixed(2)}`;
-            document.getElementById('marginVal').innerText = `${Math.round(margin)}%`;
+        const DEFAULT_WEIGHTS = ["3.5g - £40", "7g - £70", "14g - £130"];
+        const HASH_WEIGHTS = ["1g - £15", "2g - £25", "3g - £35", "4g - £40"];
+
+        async function loadShop() {
+            try {
+                const response = await fetch(SHEET_URL);
+                const data = await response.text();
+                const rows = data.split('\n').slice(1);
+                const grid = document.getElementById('productGrid');
+                grid.innerHTML = '';
+                rows.forEach(row => {
+                    const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    if(cols.length >= 1) {
+                        const name = cols[0].replace(/"/g, '').trim();
+                        const img = cols[2] ? cols[2].replace(/"/g, '').trim() : '';
+                        if(!name) return;
+                        const card = document.createElement('div');
+                        card.className = "bg-white rounded-[2rem] p-2 flex flex-col shadow-sm border border-slate-100";
+                        card.innerHTML = `<div class="h-44 md:h-64 overflow-hidden rounded-[1.8rem] bg-slate-100 mb-3"><img src="${img}" class="w-full h-full object-cover"></div><h3 class="text-[10px] font-black uppercase text-slate-700 mb-3 text-center">${name}</h3><button onclick="openModal('${name}')" class="mt-auto w-full bg-slate-900 text-white py-3 rounded-2xl text-[9px] font-black uppercase tracking-widest">Order</button>`;
+                        grid.appendChild(card);
+                    }
+                });
+            } catch (err) { console.error(err); }
         }
 
-        // --- WhatsApp Link Fix (In your Shop script) ---
-        // ነዚ ዝስዕብ ክፍሊ ኣብቲ ናይ Shop (index.html) ፋይልካ ተጠቐመሉ፦
+        function openModal(name) {
+            document.getElementById('modalTitle').innerText = name;
+            const select = document.getElementById('weightSelect');
+            select.innerHTML = '';
+            const lowerName = name.toLowerCase();
+            let options = (lowerName.includes('hash') || lowerName.includes('sift') || lowerName.includes('filter')) ? HASH_WEIGHTS : DEFAULT_WEIGHTS;
+            options.forEach(opt => {
+                const o = document.createElement('option'); o.text = opt; o.value = opt;
+                select.add(o);
+            });
+            document.getElementById('orderModal').classList.remove('hidden');
+        }
+
+        function closeModal() { document.getElementById('orderModal').classList.add('hidden'); }
+
         function confirmAndSend() {
-            const name = document.getElementById('custName').value;
-            const phone = document.getElementById('custPhone').value;
-            const street = document.getElementById('custStreet').value;
-            const postcode = document.getElementById('custPostcode').value.toUpperCase();
+            const name = document.getElementById('custName').value.trim();
+            const phone = document.getElementById('custPhone').value.trim();
+            const street = document.getElementById('custStreet').value.trim();
+            const postcode = document.getElementById('custPostcode').value.trim().toUpperCase();
+            const weight = document.getElementById('weightSelect').value;
 
-            // 🚩 እቲ ቀንዲ መፍትሒ እዞም ሰለስተ መስመራት እዮም (Links)
-            const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(street + ' ' + postcode)}`;
-            const callLink = `tel:${phone}`;
+            if(!name || !phone || !street || !postcode) { alert("Please fill all details!"); return; }
 
-            const msg = `*NEW ORDER* 📍\n` +
+            orderCount++;
+            localStorage.setItem('hepm_order_count', orderCount);
+
+            // 🚩 እቲ ቀንዲ መፍትሒ - ሰማያዊ ሊንክ ዝፈጥር መስመር
+            const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(street + ' ' + postcode)}`;
+
+            const msg = `*NEW ORDER #${orderCount}* 📍\n` +
                         `--------------------------\n` +
+                        `*Product:* ${document.getElementById('modalTitle').innerText}\n` +
+                        `*Selection:* ${weight}\n\n` +
+                        `*Customer Info:*\n` +
                         `👤 Name: ${name}\n` +
-                        `📞 Call: ${phone}\n` + // እዚ ኣብ WhatsApp ከም ሰማያዊ ሊንክ ክመጽእ እዩ
+                        `📞 Call: ${phone}\n` + 
                         `🏠 Address: ${street}, ${postcode}\n\n` +
-                        `📍 *Google Maps:*\n${mapLink}\n` + // እዚ ሰማያዊ ሊንክ (Underscore) ክኸውን እዩ
+                        `📍 *Google Maps Link:* \n` +
+                        `${mapUrl}\n` +
                         `--------------------------`;
-
-            window.location.href = `https://api.whatsapp.com/send?phone=447448700978&text=${encodeURIComponent(msg)}`;
+            
+            window.location.href = `https://api.whatsapp.com/send?phone=${MY_PHONE}&text=${encodeURIComponent(msg)}`;
         }
+        window.onload = loadShop;
     </script>
 </body>
 </html>

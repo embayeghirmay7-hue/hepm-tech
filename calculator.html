@@ -3,91 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HAKEY | Inventory & Profit</title>
+    <title>HEPM FAMILY | Recovery Tracker</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="bg-[#0a0a0a] text-white font-sans min-h-screen flex items-center justify-center p-4">
+<body class="bg-[#050505] text-white font-sans min-h-screen flex items-center justify-center p-4">
 
-    <div class="bg-[#111] p-8 rounded-[3rem] shadow-2xl w-full max-w-2xl border border-yellow-600/20">
-        <h1 class="text-2xl font-black italic mb-8 text-center text-yellow-500 uppercase tracking-tighter">HAKEY STOCK CONTROL 📦</h1>
+    <div class="bg-[#111] p-8 rounded-[3rem] shadow-2xl w-full max-w-3xl border border-blue-500/20">
+        <div class="flex justify-between items-center mb-8 border-b border-white/5 pb-4">
+            <h1 class="text-xl font-black italic text-blue-500 uppercase tracking-widest">Investment Recovery</h1>
+            <span class="text-[9px] bg-blue-500/10 text-blue-400 px-3 py-1 rounded-full font-bold uppercase tracking-widest">Live Status</span>
+        </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            
-            <div class="space-y-5">
-                <div class="bg-black/40 p-5 rounded-3xl border border-white/5">
-                    <label class="block text-[10px] font-bold uppercase text-slate-500 mb-2">Total Bag Stock (Grams)</label>
-                    <input type="number" id="totalStock" oninput="calculate()" placeholder="10000" class="w-full bg-transparent text-2xl font-black text-white outline-none">
+            <div class="space-y-4">
+                <div class="bg-white/5 p-5 rounded-3xl">
+                    <label class="block text-[10px] font-black uppercase text-slate-500 mb-2">💰 Initial Investment (£)</label>
+                    <input type="number" id="initInvest" oninput="calculate()" placeholder="4000" value="4000" class="w-full bg-transparent text-3xl font-black text-white outline-none">
                 </div>
 
-                <div class="bg-black/40 p-5 rounded-3xl border border-white/5">
-                    <label class="block text-[10px] font-bold uppercase text-slate-500 mb-2">Buying Price (£ for bag)</label>
-                    <input type="number" id="bulkCost" oninput="calculate()" placeholder="1800" class="w-full bg-transparent text-2xl font-black text-white outline-none">
+                <div class="bg-white/5 p-5 rounded-3xl">
+                    <label class="block text-[10px] font-black uppercase text-slate-500 mb-2">📦 Total Bag Stock (Grams)</label>
+                    <input type="number" id="totalStock" oninput="calculate()" placeholder="10000" value="10000" class="w-full bg-transparent text-3xl font-black text-white outline-none">
                 </div>
 
-                <div class="bg-yellow-500/5 p-5 rounded-3xl border border-yellow-500/20">
-                    <label class="block text-[10px] font-bold uppercase text-yellow-500 mb-2">Current Sale (Grams)</label>
-                    <input type="number" id="saleWeight" oninput="calculate()" placeholder="3.5" class="w-full bg-transparent text-3xl font-black text-white outline-none">
-                    
-                    <label class="block text-[10px] font-bold uppercase text-yellow-500 mt-4 mb-2">Sale Price (£)</label>
-                    <input type="number" id="salePrice" oninput="calculate()" placeholder="40" class="w-full bg-transparent text-3xl font-black text-green-500 outline-none">
+                <div class="bg-yellow-500/5 p-6 rounded-3xl border border-yellow-500/20">
+                    <label class="block text-[10px] font-black uppercase text-yellow-500 mb-3 italic tracking-widest">Today's Sale</label>
+                    <div class="grid grid-cols-2 gap-4">
+                        <input type="number" id="saleWeight" oninput="calculate()" placeholder="Weight (g)" class="w-full bg-black/40 p-3 rounded-xl font-black text-white outline-none">
+                        <input type="number" id="salePrice" oninput="calculate()" placeholder="Price (£)" class="w-full bg-black/40 p-3 rounded-xl font-black text-green-400 outline-none">
+                    </div>
                 </div>
             </div>
 
             <div class="space-y-4">
-                <div class="bg-blue-600/10 border border-blue-500/30 p-6 rounded-[2.5rem] text-center">
-                    <span class="text-[10px] font-black uppercase text-blue-400 tracking-widest">Remaining Stock</span>
-                    <div id="remainingStock" class="text-4xl font-black mt-2 text-white">10,000g</div>
-                    <div class="w-full bg-blue-900/30 h-2 rounded-full mt-4 overflow-hidden">
-                        <div id="stockBar" class="bg-blue-500 h-full w-full transition-all duration-500"></div>
+                <div class="bg-blue-600/10 border border-blue-500/30 p-8 rounded-[2.5rem] text-center">
+                    <span class="text-[10px] font-black uppercase text-blue-400 tracking-[0.2em]">Investment Payback</span>
+                    <div id="recoveryStatus" class="text-3xl font-black mt-2 text-white italic">0% Recovered</div>
+                    <div class="w-full bg-white/5 h-3 rounded-full mt-4 overflow-hidden border border-white/5">
+                        <div id="recoveryBar" class="bg-blue-500 h-full w-0 transition-all duration-1000"></div>
                     </div>
                 </div>
 
                 <div class="bg-green-600/10 border border-green-500/30 p-6 rounded-[2.5rem] text-center">
-                    <span class="text-[10px] font-black uppercase text-green-400 tracking-widest">Net Profit</span>
-                    <div id="netProfit" class="text-4xl font-black mt-2 text-white">£0.00</div>
-                    <p class="text-[9px] text-slate-500 mt-2 uppercase">After cost deduction</p>
+                    <span class="text-[10px] font-black uppercase text-green-400 tracking-widest">Net Profit (Today)</span>
+                    <div id="netProfit" class="text-4xl font-black mt-1 text-white">£0.00</div>
+                    <p class="text-[9px] text-slate-500 mt-2 uppercase font-bold italic tracking-wider">After Cost Deduction</p>
                 </div>
 
                 <div class="bg-white/5 p-4 rounded-2xl flex justify-between items-center px-6">
-                    <span class="text-[10px] font-bold text-slate-500 uppercase">Portion Cost:</span>
-                    <span id="portionCost" class="text-sm font-bold text-red-400">£0.00</span>
+                    <span class="text-[10px] font-bold text-slate-500 uppercase italic">Remaining Stock:</span>
+                    <span id="remainingStock" class="text-lg font-black text-white">10,000g</span>
                 </div>
             </div>
         </div>
 
-        <button onclick="location.href='index.html'" class="w-full mt-8 bg-slate-800 text-slate-400 py-4 rounded-2xl font-bold text-[10px] uppercase tracking-widest hover:bg-yellow-500 hover:text-black transition-all">
-            <i class="fa-solid fa-arrow-left mr-2"></i> Back to Hakey Shop
+        <button onclick="location.href='index.html'" class="w-full mt-10 text-slate-600 font-bold text-[10px] uppercase tracking-[0.4em] hover:text-blue-400 transition-all italic">
+            ← HEPM FAMILY SHOP
         </button>
     </div>
 
     <script>
+        // Use a simple variable to track cumulative sales for the session
+        let totalSalesToDate = 0;
+
         function calculate() {
+            const invest = parseFloat(document.getElementById('initInvest').value) || 0;
             const totalStock = parseFloat(document.getElementById('totalStock').value) || 0;
-            const bulkCost = parseFloat(document.getElementById('bulkCost').value) || 0;
             const saleWeight = parseFloat(document.getElementById('saleWeight').value) || 0;
             const salePrice = parseFloat(document.getElementById('salePrice').value) || 0;
 
-            // 1. መኽሰብ ምሕሳብ (Profit Calculation)
-            const costPerGram = totalStock > 0 ? bulkCost / totalStock : 0;
+            // 1. Logic for Cost Recovery
+            // Cost per gram based on investment of 4,000g for £4000
+            // Since £4000 is for 10,000g total (but effectively you're paying for 4000g)
+            // We use the 4000 investment to see how much each gram costs out of the total.
+            const costPerGram = invest / totalStock;
             const portionCost = costPerGram * saleWeight;
-            const profit = salePrice - portionCost;
+            const currentProfit = salePrice - portionCost;
 
-            // 2. ዝተረፈ ክንደይ እዩ (Stock Remaining)
+            // 2. Recovery Logic (Simulated for this sale)
+            // How much of the £4000 is covered by this sale's price?
+            const recoveryPercent = (salePrice / invest) * 100;
+
+            // 3. Inventory Logic
             const remaining = totalStock - saleWeight;
-            const stockPercent = totalStock > 0 ? (remaining / totalStock) * 100 : 0;
 
-            // Results Update
-            document.getElementById('portionCost').innerText = `£${portionCost.toFixed(2)}`;
-            document.getElementById('netProfit').innerText = `£${profit.toFixed(2)}`;
+            // Update UI
+            document.getElementById('netProfit').innerText = `£${currentProfit.toFixed(2)}`;
             document.getElementById('remainingStock').innerText = `${remaining.toLocaleString()}g`;
+            document.getElementById('recoveryBar').style.width = (recoveryPercent > 100 ? 100 : recoveryPercent) + "%";
+            document.getElementById('recoveryStatus').innerText = recoveryPercent.toFixed(1) + "% Recovered";
             
-            // Stock Bar Update
-            document.getElementById('stockBar').style.width = stockPercent + "%";
-            if(stockPercent < 20) {
-                document.getElementById('stockBar').classList.replace('bg-blue-500', 'bg-red-500');
-            } else {
-                document.getElementById('stockBar').classList.replace('bg-red-500', 'bg-blue-500');
+            if(recoveryPercent >= 100) {
+                document.getElementById('recoveryStatus').innerText = "100% PROFIT MODE";
+                document.getElementById('recoveryBar').classList.replace('bg-blue-500', 'bg-green-500');
             }
         }
     </script>

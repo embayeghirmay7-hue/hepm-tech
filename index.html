@@ -22,26 +22,25 @@
     </main>
 
     <div id="orderModal" class="hidden fixed inset-0 bg-slate-900/95 backdrop-blur-md z-[110] flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-md rounded-[2.5rem] p-8 shadow-2xl relative overflow-y-auto max-h-[90vh]">
+        <div class="bg-white w-full max-w-md rounded-[2.5rem] p-8 shadow-2xl relative">
             <h2 id="modalTitle" class="text-2xl font-black text-slate-800 mb-4 uppercase italic"></h2>
             
-            <div class="space-y-3">
+            <div class="space-y-4">
                 <div class="text-left">
                     <label class="text-[9px] font-black uppercase text-slate-400 block text-center mb-1">Select Weight</label>
                     <select id="weightSelect" class="w-full p-4 bg-slate-50 rounded-2xl font-black border-2 border-slate-100 outline-none focus:border-blue-500"></select>
                 </div>
 
-                <input type="text" id="custName" placeholder="Full Name (ስም)" class="w-full p-4 bg-slate-50 rounded-2xl font-bold outline-none border-none">
-                <input type="tel" id="custPhone" placeholder="Phone Number (ቁጽሪ ስልኪ)" class="w-full p-4 bg-slate-50 rounded-2xl font-bold outline-none border-none">
+                <input type="text" id="custName" placeholder="Full Name (ስም)" class="w-full p-4 bg-slate-50 rounded-2xl font-bold border-none outline-none">
+                <input type="tel" id="custPhone" placeholder="Phone Number" class="w-full p-4 bg-slate-50 rounded-2xl font-bold border-none outline-none">
                 
                 <div class="space-y-2">
-                    <label class="text-[9px] font-black uppercase text-slate-400 block text-center mt-2">Delivery Address (Uxbridge)</label>
-                    <input type="text" id="custStreet" placeholder="Street Name (e.g. 14a Tachbrook Road)" class="w-full p-4 bg-slate-50 rounded-2xl font-bold border-2 border-blue-100 outline-none focus:border-blue-500">
-                    <input type="text" id="custPostcode" placeholder="Postcode (e.g. UB8 2QS)" class="w-full p-4 bg-slate-50 rounded-2xl font-bold border-2 border-blue-100 outline-none focus:border-blue-500 uppercase">
+                    <input type="text" id="custStreet" placeholder="Street Name & House No." class="w-full p-4 bg-slate-50 rounded-2xl font-bold border-2 border-slate-100 outline-none focus:border-blue-500">
+                    <input type="text" id="custPostcode" placeholder="Postcode (e.g. UB8...)" class="w-full p-4 bg-slate-50 rounded-2xl font-bold border-2 border-slate-100 outline-none focus:border-blue-500 uppercase">
                 </div>
                 
-                <button onclick="confirmAndSend()" class="w-full bg-slate-900 text-white p-5 rounded-3xl font-black uppercase shadow-xl hover:bg-blue-600 transition-all">
-                    Send Order to WhatsApp <i class="fab fa-whatsapp ml-2 text-green-400"></i>
+                <button onclick="confirmAndSend()" class="w-full bg-slate-900 text-white p-5 rounded-3xl font-black uppercase shadow-xl hover:bg-blue-600">
+                    Send Order to WhatsApp
                 </button>
                 <button onclick="closeModal()" class="w-full text-slate-300 font-bold text-[10px] uppercase">Cancel</button>
             </div>
@@ -89,10 +88,8 @@
             document.getElementById('modalTitle').innerText = name;
             const select = document.getElementById('weightSelect');
             select.innerHTML = '';
-            
             const cleanName = name.toLowerCase().replace(/\s+/g, '');
             let keyFound = Object.keys(MENU_DATA).find(k => cleanName.includes(k));
-
             if(keyFound) {
                 MENU_DATA[keyFound].forEach(opt => {
                     const o = document.createElement('option');
@@ -121,7 +118,7 @@
                 return; 
             }
 
-            const msg = `*NEW UXBRIDGE ORDER* 📍\n--------------------------\n*Product:* ${currentProduct.name}\n*Selection:* ${weight}\n\n*Customer Info:*\n👤 Name: ${name}\n📞 Phone: ${phone}\n🏠 Street: ${street}\n📮 Postcode: ${postcode.toUpperCase()}\n--------------------------`;
+            const msg = `*NEW ORDER* 📍\n--------------------------\n*Product:* ${currentProduct.name}\n*Selection:* ${weight}\n\n*Customer Info:*\n👤 Name: ${name}\n📞 Phone: ${phone}\n🏠 Street: ${street}\n📮 Postcode: ${postcode.toUpperCase()}\n--------------------------`;
             window.open(`https://wa.me/${MY_PHONE}?text=${encodeURIComponent(msg)}`, '_blank');
         }
         window.onload = loadShop;

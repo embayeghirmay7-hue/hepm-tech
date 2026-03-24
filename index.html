@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HEPM-TECH | Uxbridge Shop</title>
+    <title>HEPM-TECH | Official Shop</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="bg-slate-50 min-h-screen font-sans">
 
     <div class="bg-yellow-400 text-black py-3 sticky top-0 z-[100] border-b-2 border-black font-black uppercase italic text-[10px] text-center">
-        ⚠️ NOTICE: Delivering in UXBRIDGE Only
+        ⚠️ Delivering in UXBRIDGE Only
     </div>
 
-    <nav class="bg-white p-4 border-b flex justify-between items-center sticky top-[42px] z-50 shadow-sm">
-        <h1 class="text-xl font-black italic text-slate-800">HEPM-TECH</h1>
-        <button onclick="location.href='calculator.html'" class="text-[10px] font-bold bg-slate-100 px-3 py-1 rounded-full uppercase">Profit Calc</button>
+    <nav class="bg-white p-4 border-b flex justify-between items-center sticky top-[42px] z-50">
+        <h1 class="text-xl font-black italic text-slate-800 tracking-tighter">HEPM-TECH</h1>
+        <button onclick="location.href='calculator.html'" class="text-[10px] font-bold bg-slate-100 px-4 py-2 rounded-full uppercase border border-slate-200">Profit Calc 📈</button>
     </nav>
 
     <main class="max-w-6xl mx-auto p-4 md:p-10">
@@ -32,16 +32,15 @@
                     <select id="weightSelect" class="w-full p-4 bg-slate-50 rounded-2xl font-black border-2 border-slate-100 outline-none focus:border-blue-500"></select>
                 </div>
 
-                <input type="text" id="custName" placeholder="Full Name" class="w-full p-4 bg-slate-50 rounded-2xl font-bold border-none outline-none">
-                <input type="tel" id="custPhone" placeholder="Phone Number" class="w-full p-4 bg-slate-50 rounded-2xl font-bold border-none outline-none">
+                <input type="text" id="custName" placeholder="Full Name" class="w-full p-4 bg-slate-50 rounded-2xl font-bold outline-none">
+                <input type="tel" id="custPhone" placeholder="Phone Number" class="w-full p-4 bg-slate-50 rounded-2xl font-bold outline-none">
                 
                 <div class="space-y-2 border-t pt-4">
-                    <label class="text-[9px] font-black uppercase text-slate-400 block text-center">Delivery Address</label>
-                    <input type="text" id="custStreet" placeholder="Street Name & House No." class="w-full p-4 bg-slate-100 rounded-2xl font-bold border-none outline-none">
-                    <input type="text" id="custPostcode" placeholder="Postcode (UB...)" class="w-full p-4 bg-slate-100 rounded-2xl font-bold border-none outline-none uppercase">
+                    <input type="text" id="custStreet" placeholder="Street & House No." class="w-full p-4 bg-slate-100 rounded-2xl font-bold outline-none">
+                    <input type="text" id="custPostcode" placeholder="Postcode (UB8...)" class="w-full p-4 bg-slate-100 rounded-2xl font-bold outline-none uppercase">
                 </div>
                 
-                <button onclick="confirmAndSend()" class="w-full bg-slate-900 text-white p-5 rounded-3xl font-black uppercase shadow-xl hover:bg-green-600 transition-all active:scale-95">
+                <button onclick="confirmAndSend()" class="w-full bg-slate-900 text-white p-5 rounded-3xl font-black uppercase shadow-xl hover:bg-green-600 transition-all">
                     Confirm Order <i class="fab fa-whatsapp ml-2"></i>
                 </button>
                 <button onclick="closeModal()" class="w-full text-slate-300 font-bold text-[10px] uppercase text-center mt-2">Cancel</button>
@@ -53,9 +52,6 @@
         const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQH4oZK0msDak510wlcSWZf0Oo39Ncj3pZsSZkU2YhO4XnSEH6F6UrX9AqmBKHSiMRBcXzNodNb0hzR/pub?output=csv';
         const MY_PHONE = "447448700978"; 
         let orderCount = localStorage.getItem('hepm_order_count') || 0;
-
-        const DEFAULT_WEIGHTS = ["3.5g - £40", "7g - £70", "14g - £130"];
-        const HASH_WEIGHTS = ["1g - £15", "2g - £25", "3g - £35", "4g - £40"];
 
         async function loadShop() {
             try {
@@ -72,7 +68,7 @@
                         if(!name) return;
                         const card = document.createElement('div');
                         card.className = "bg-white rounded-[2rem] p-2 flex flex-col shadow-sm border border-slate-100";
-                        card.innerHTML = `<div class="h-44 md:h-64 overflow-hidden rounded-[1.8rem] bg-slate-100 mb-3"><img src="${img}" class="w-full h-full object-cover"></div><h3 class="text-[10px] font-black uppercase text-slate-700 mb-3 text-center">${name}</h3><button onclick="openModal('${name}')" class="mt-auto w-full bg-slate-900 text-white py-3 rounded-2xl text-[9px] font-black uppercase tracking-widest">Order</button>`;
+                        card.innerHTML = `<div class="h-44 md:h-64 overflow-hidden rounded-[1.8rem] bg-slate-100 mb-3"><img src="${img}" class="w-full h-full object-cover"></div><h3 class="text-[10px] font-black uppercase text-slate-700 mb-3 text-center">${name}</h3><button onclick="openModal('${name}')" class="mt-auto w-full bg-slate-900 text-white py-3 rounded-2xl text-[9px] font-black uppercase">Order</button>`;
                         grid.appendChild(card);
                     }
                 });
@@ -84,7 +80,7 @@
             const select = document.getElementById('weightSelect');
             select.innerHTML = '';
             const lowerName = name.toLowerCase();
-            let options = (lowerName.includes('hash') || lowerName.includes('sift') || lowerName.includes('filter')) ? HASH_WEIGHTS : DEFAULT_WEIGHTS;
+            let options = (lowerName.includes('hash') || lowerName.includes('sift')) ? ["1g - £15", "2g - £25", "3.5g - £40"] : ["3.5g - £40", "7g - £70", "14g - £130"];
             options.forEach(opt => {
                 const o = document.createElement('option'); o.text = opt; o.value = opt;
                 select.add(o);
@@ -99,26 +95,27 @@
             const phone = document.getElementById('custPhone').value.trim();
             const street = document.getElementById('custStreet').value.trim();
             const postcode = document.getElementById('custPostcode').value.trim().toUpperCase();
-            const weight = document.getElementById('weightSelect').value;
+            const weightPrice = document.getElementById('weightSelect').value;
 
             if(!name || !phone || !street || !postcode) { alert("Please fill all details!"); return; }
 
             orderCount++;
             localStorage.setItem('hepm_order_count', orderCount);
 
-            // 🚩 እቲ ቀንዲ መፍትሒ - ሰማያዊ ሊንክ ዝፈጥር መስመር
-            const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(street + ' ' + postcode)}`;
+            // 🚩 WhatsApp Link Fix
+            const mapLink = `http://maps.google.com/?q=${encodeURIComponent(street + ' ' + postcode)}`;
+            const callLink = `tel:${phone}`;
 
             const msg = `*NEW ORDER #${orderCount}* 📍\n` +
                         `--------------------------\n` +
-                        `*Product:* ${document.getElementById('modalTitle').innerText}\n` +
-                        `*Selection:* ${weight}\n\n` +
+                        `💰 *TOTAL SALE:* ${weightPrice}\n` + // እዚኣ እያ እታ ዝነጸረት ዋጋ
+                        `📦 *Product:* ${document.getElementById('modalTitle').innerText}\n\n` +
                         `*Customer Info:*\n` +
                         `👤 Name: ${name}\n` +
-                        `📞 Call: ${phone}\n` + 
+                        `📞 Call: ${callLink}\n` + 
                         `🏠 Address: ${street}, ${postcode}\n\n` +
-                        `📍 *Google Maps Link:* \n` +
-                        `${mapUrl}\n` +
+                        `📍 *Google Maps:*\n` +
+                        `${mapLink}\n` +
                         `--------------------------`;
             
             window.location.href = `https://api.whatsapp.com/send?phone=${MY_PHONE}&text=${encodeURIComponent(msg)}`;

@@ -6,32 +6,45 @@
     <title>HEPM-TECH | Professional Store</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .product-card { transition: all 0.3s ease; border-radius: 2.5rem; }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1); }
+        .modal { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(10px); z-index: 100; align-items: center; justify-content: center; padding: 15px; }
+        .modal.active { display: flex; }
+    </style>
 </head>
 <body class="bg-slate-50 min-h-screen font-sans">
 
     <nav class="bg-white shadow-sm sticky top-0 z-50 p-4 border-b flex justify-between items-center">
-        <h1 class="text-xl font-black italic text-slate-800 uppercase">HEPM-TECH</h1>
-        <span class="text-[10px] font-black text-green-500 bg-green-50 px-3 py-1 rounded-full uppercase">● Shop Live</span>
+        <div class="flex items-center gap-2">
+            <div class="bg-blue-600 p-2 rounded-xl text-white italic font-black text-xs shadow-lg">HT</div>
+            <h1 class="text-xl font-black italic text-slate-800 uppercase tracking-tighter">HEPM-TECH</h1>
+        </div>
+        <div class="flex items-center gap-2">
+            <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+            <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Live Store</span>
+        </div>
     </nav>
 
     <main class="max-w-6xl mx-auto p-4 md:p-10">
-        <div id="productGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 text-center">
-            <div id="loadingStatus" class="col-span-full py-20 text-blue-500 font-black animate-pulse uppercase tracking-widest">
-                Connecting to Catalog...
+        <div id="productGrid" class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div id="loadingStatus" class="col-span-full py-20 text-center font-black text-blue-500 animate-pulse uppercase tracking-widest text-sm">
+                Fetching Your Products...
             </div>
         </div>
     </main>
 
-    <div id="orderModal" class="hidden fixed inset-0 bg-slate-900/90 backdrop-blur-md z-50 flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-md rounded-[2.5rem] p-8 shadow-2xl overflow-y-auto max-h-[90vh]">
+    <div id="orderModal" class="modal">
+        <div class="bg-white w-full max-w-md rounded-[2.5rem] p-8 shadow-2xl relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-2 bg-blue-600"></div>
             <h2 class="text-2xl font-black text-slate-800 mb-1 italic uppercase tracking-tighter">Order Details</h2>
             <p id="selectedItem" class="text-blue-600 font-bold mb-8 text-[10px] bg-blue-50 px-3 py-1 rounded-full inline-block"></p>
             
             <div class="space-y-4">
                 <input type="text" id="custName" placeholder="Full Name (ስም)" class="w-full p-4 bg-slate-50 rounded-2xl font-bold border-none outline-none focus:ring-2 focus:ring-blue-500">
                 <div class="grid grid-cols-2 gap-3">
-                    <input type="tel" id="custPhone1" placeholder="Phone 1" class="w-full p-4 bg-slate-50 rounded-2xl font-bold">
-                    <input type="tel" id="custPhone2" placeholder="Phone 2" class="w-full p-4 bg-slate-50 rounded-2xl font-bold">
+                    <input type="tel" id="custPhone1" placeholder="Phone 1 (ሲም 1)" class="w-full p-4 bg-slate-50 rounded-2xl font-bold">
+                    <input type="tel" id="custPhone2" placeholder="Phone 2 (ሲም 2)" class="w-full p-4 bg-slate-50 rounded-2xl font-bold">
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                     <input type="date" id="orderDate" class="w-full p-4 bg-slate-50 rounded-2xl font-bold text-xs">
@@ -39,12 +52,12 @@
                 </div>
                 <div class="bg-blue-50 p-4 rounded-2xl flex items-center gap-3">
                     <input type="checkbox" id="isFlexible" class="w-5 h-5 accent-blue-600">
-                    <label for="isFlexible" class="text-[10px] font-black text-blue-800 uppercase italic">Flexible delivery time</label>
+                    <label for="isFlexible" class="text-[10px] font-black text-blue-800 uppercase italic">I am flexible with time</label>
                 </div>
-                <textarea id="custLoc" placeholder="Address (ገዛ ቁጽሪ፣ ጎደና...)" class="w-full p-4 bg-slate-50 rounded-2xl font-bold h-24 resize-none"></textarea>
+                <textarea id="custLoc" placeholder="Delivery Address (ኣድራሻ)" class="w-full p-4 bg-slate-50 rounded-2xl font-bold h-24 resize-none"></textarea>
                 
-                <button onclick="confirmAndSend()" class="w-full bg-blue-600 text-white p-5 rounded-3xl font-black shadow-xl hover:bg-black transition-all uppercase tracking-tighter">
-                    Send to WhatsApp <i class="fab fa-whatsapp ml-2"></i>
+                <button onclick="confirmAndSend()" class="w-full bg-slate-900 text-white p-5 rounded-3xl font-black shadow-xl hover:bg-blue-600 transition-all uppercase tracking-tighter">
+                    Send Order <i class="fab fa-whatsapp ml-2 text-green-400"></i>
                 </button>
                 <button onclick="closeModal()" class="w-full text-slate-300 font-bold text-[10px] uppercase mt-2">Go Back</button>
             </div>
@@ -52,18 +65,14 @@
     </div>
 
     <script>
-        // UPDATED GOOGLE SHEET CSV LINK
-        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR6zS3Uo_n8F-mU6n576YJ1aZ9zZfL-p2R_hZ9R-p2R_hZ9R-p2R_hZ9R-p2R_hZ9R/pub?output=csv';
-        // Alternate direct fetch if the above fails
-        const DIRECT_ID = '1XEeG8auXpeoo6-qz3Q2d5x4qhsZVNLWVq6stHwu3JdE';
-        const CSV_URL = `https://docs.google.com/spreadsheets/d/${DIRECT_ID}/gviz/tq?tqx=out:csv`;
-        
+        // THE NEW CSV LINK YOU PROVIDED
+        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQH4oZK0msDak510wlcSWZf0Oo39Ncj3pZsSZkU2YhO4XnSEH6F6UrX9AqmBKHSiMRBcXzNodNb0hzR/pub?output=csv';
         const MY_PHONE = "447448700978"; 
         let currentItem = {};
 
-        async function loadData() {
+        async function loadShop() {
             try {
-                const response = await fetch(CSV_URL);
+                const response = await fetch(SHEET_URL);
                 const data = await response.text();
                 const rows = data.split('\n').slice(1);
                 
@@ -76,38 +85,37 @@
                         const name = cols[0].replace(/"/g, '').trim();
                         const price = cols[1] ? cols[1].replace(/"/g, '').trim() : "0";
                         const img = cols[2] ? cols[2].replace(/"/g, '').trim() : '';
-                        if(!name || name.toLowerCase() === 'name') return;
+                        if(!name) return;
 
                         const card = document.createElement('div');
-                        card.className = "bg-white rounded-[2.5rem] border border-slate-100 p-2 flex flex-col hover:shadow-2xl transition-all";
+                        card.className = "product-card bg-white border border-slate-100 p-2 flex flex-col";
                         card.innerHTML = `
                             <div class="h-44 md:h-64 overflow-hidden rounded-[2rem] bg-slate-50 mb-3">
                                 <img src="${img}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/400?text=${name}'">
                             </div>
-                            <div class="p-3 flex-grow flex flex-col">
+                            <div class="p-3 flex-grow flex flex-col text-center">
                                 <h3 class="text-[10px] font-black uppercase text-slate-700 mb-3 h-8 overflow-hidden">${name}</h3>
                                 <p class="text-blue-600 font-black text-xl italic mb-4 mt-auto">€${price}</p>
-                                <button onclick="openModal('${name}', '${price}')" class="w-full bg-slate-900 text-white py-4 rounded-2xl text-[10px] font-black uppercase tracking-tighter shadow-lg shadow-slate-200 hover:bg-blue-600 transition-colors">Order Now</button>
+                                <button onclick="openModal('${name}', '${price}')" class="w-full bg-slate-900 text-white py-4 rounded-2xl text-[10px] font-black uppercase tracking-tighter shadow-lg shadow-slate-100 hover:bg-blue-600 transition-colors">Order Now</button>
                             </div>
                         `;
                         grid.appendChild(card);
                     }
                 });
             } catch (err) {
-                document.getElementById('loadingStatus').innerHTML = "ERROR: Make sure the Google Sheet is 'Published to web'.";
-                console.error(err);
+                document.getElementById('loadingStatus').innerHTML = "Check Connection or Google Sheet Access.";
             }
         }
 
         function openModal(name, price) {
             currentItem = { name, price };
-            document.getElementById('selectedItem').innerText = name + " - €" + price;
-            document.getElementById('orderModal').classList.remove('hidden');
+            document.getElementById('selectedItem').innerText = name + " • €" + price;
+            document.getElementById('orderModal').classList.add('active');
             document.getElementById('orderDate').value = new Date().toISOString().split('T')[0];
         }
 
         function closeModal() {
-            document.getElementById('orderModal').classList.add('hidden');
+            document.getElementById('orderModal').classList.remove('active');
         }
 
         function confirmAndSend() {
@@ -117,16 +125,16 @@
             const l = document.getElementById('custLoc').value.trim();
             const d = document.getElementById('orderDate').value;
             const t = document.getElementById('orderTime').value;
-            const flex = document.getElementById('isFlexible').checked ? "YES ✅" : "NO ❌";
+            const f = document.getElementById('isFlexible').checked ? "YES ✅" : "NO ❌";
 
-            if(!n || !p1 || !l || !d || !t) { alert("Please fill all required details!"); return; }
+            if(!n || !p1 || !l || !d || !t) { alert("Please fill all details!"); return; }
 
-            const msg = `*NEW ORDER FROM WEB* 🛍️\n--------------------------\n*Product:* ${currentItem.name}\n*Price:* €${currentItem.price}\n\n*Contacts:* \n👤 Name: ${n}\n📞 Phone 1: ${p1}\n📱 Phone 2: ${p2}\n\n*Schedule:* \n📅 Date: ${d}\n⏰ Time: ${t}\n📍 Address: ${l}\n🔄 Flexible: ${flex}\n--------------------------`;
+            const msg = `*NEW ORDER FROM WEB* 🛍️\n--------------------------\n*Product:* ${currentItem.name}\n*Price:* €${currentItem.price}\n\n*Contacts:* \n👤 Name: ${n}\n📞 Phone 1: ${p1}\n📱 Phone 2: ${p2}\n\n*Schedule:* \n📅 Date: ${d}\n⏰ Time: ${t}\n📍 Address: ${l}\n🔄 Flexible: ${f}\n--------------------------`;
             window.open(`https://wa.me/${MY_PHONE}?text=${encodeURIComponent(msg)}`, '_blank');
             closeModal();
         }
 
-        window.onload = loadData;
+        window.onload = loadShop;
     </script>
 </body>
 </html>

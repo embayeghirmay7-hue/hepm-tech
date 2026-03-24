@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -39,7 +39,7 @@
                     <input type="text" id="custPostcode" placeholder="Postcode" class="w-full p-4 bg-slate-100 rounded-2xl font-bold border-none outline-none uppercase">
                 </div>
                 
-                <button onclick="confirmAndSend()" class="w-full bg-slate-900 text-white p-5 rounded-3xl font-black uppercase shadow-xl hover:bg-green-600 transition-all">
+                <button onclick="confirmAndSend()" class="w-full bg-slate-900 text-white p-5 rounded-3xl font-black uppercase shadow-xl hover:bg-green-600">
                     Confirm via WhatsApp <i class="fab fa-whatsapp ml-2"></i>
                 </button>
                 <button onclick="closeModal()" class="w-full text-slate-300 font-bold text-[10px] uppercase">Cancel</button>
@@ -51,6 +51,9 @@
         const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQH4oZK0msDak510wlcSWZf0Oo39Ncj3pZsSZkU2YhO4XnSEH6F6UrX9AqmBKHSiMRBcXzNodNb0hzR/pub?output=csv';
         const MY_PHONE = "447448700978"; 
         let currentProduct = {};
+
+        // 🔢 Order Counter Logic
+        let orderCount = localStorage.getItem('hepm_order_count') || 0;
 
         const DEFAULT_WEIGHTS = ["3.5g - £40", "7g - £70", "14g - £130"];
         const HASH_WEIGHTS = ["1g - £15", "2g - £25", "3g - £35", "4g - £40"];
@@ -108,13 +111,17 @@
                 return; 
             }
 
-            const msg = `*NEW ORDER* 📍\n--------------------------\n*Product:* ${currentProduct.name}\n*Selection:* ${weight}\n\n*Customer Info:*\n👤 Name: ${name}\n📞 Phone: ${phone}\n🏠 Street: ${street}\n📮 Postcode: ${postcode.toUpperCase()}\n--------------------------`;
+            // 🔢 Update Order Count
+            orderCount++;
+            localStorage.setItem('hepm_order_count', orderCount);
+
+            const msg = `*NEW ORDER #${orderCount}* 📍\n--------------------------\n*Product:* ${currentProduct.name}\n*Selection:* ${weight}\n\n*Customer Info:*\n👤 Name: ${name}\n📞 Phone: ${phone}\n🏠 Street: ${street}\n📮 Postcode: ${postcode.toUpperCase()}\n--------------------------`;
             
-            // 🚩 እዛ ሊንክ እዚኣ እያ እታ ፈውሲ (WhatsApp API Link)
             const waUrl = `https://api.whatsapp.com/send?phone=${MY_PHONE}&text=${encodeURIComponent(msg)}`;
             window.location.href = waUrl;
         }
         window.onload = loadShop;
     </script>
 </body>
-</html>
+</html> 
+ 

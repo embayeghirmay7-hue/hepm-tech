@@ -9,7 +9,7 @@
 <body class="bg-slate-50 min-h-screen font-sans text-center">
 
     <nav class="bg-white p-4 border-b sticky top-0 z-50 shadow-sm">
-        <h1 class="text-xl font-black italic">we-need</h1>
+        <h1 class="text-xl font-black italic">HEPM-TECH</h1>
     </nav>
 
     <main class="max-w-6xl mx-auto p-4 md:p-10">
@@ -38,13 +38,13 @@
 
     <script>
         const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQH4oZK0msDak510wlcSWZf0Oo39Ncj3pZsSZkU2YhO4XnSEH6F6UrX9AqmBKHSiMRBcXzNodNb0hzR/pub?output=csv';
-        const MY_PHONE = "447448700987";
+        const MY_PHONE = "447448700978";
         let currentProduct = {};
 
         // 🟢 እዚ ዝርዝር እዚ ንኹሉ ሓድሽ ስም ብባዕሉ ይረኽቦ
         const DEFAULT_WEIGHTS = ["3.5g - £40", "7g - £70", "14g - £130"];
         const HASH_WEIGHTS = ["1g - £15", "2g - £25", "3g - £35", "4g - £40"];
-        const marieana orginal = ["1g - £15","2g - £25", "3g - £40", "4g - £50"];
+
         async function loadShop() {
             try {
                 const response = await fetch(SHEET_URL);

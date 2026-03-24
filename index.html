@@ -3,66 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HEPM | Profit Calculator</title>
+    <title>HEPM-TECH | Pro Tools</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="bg-slate-900 text-white font-sans min-h-screen flex items-center justify-center p-6">
+<body class="bg-[#0f172a] text-white font-sans min-h-screen">
 
-    <div class="bg-slate-800 p-8 rounded-[2.5rem] shadow-2xl w-full max-w-md border border-slate-700">
-        <h1 class="text-2xl font-black italic mb-6 text-center text-yellow-400">PROFIT CALCULATOR 📈</h1>
-        
-        <div class="space-y-6">
-            <div>
-                <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Buying Price (Cost £)</label>
-                <input type="number" id="costPrice" oninput="calculate()" placeholder="0.00" class="w-full bg-slate-900 border-none p-4 rounded-2xl text-xl font-bold text-red-400 outline-none focus:ring-2 focus:ring-red-500">
-            </div>
-
-            <div>
-                <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Selling Price (Sale £)</label>
-                <input type="number" id="salePrice" oninput="calculate()" placeholder="0.00" class="w-full bg-slate-900 border-none p-4 rounded-2xl text-xl font-bold text-green-400 outline-none focus:ring-2 focus:ring-green-500">
-            </div>
-
-            <hr class="border-slate-700">
-
-            <div class="grid grid-cols-2 gap-4">
-                <div class="bg-slate-900 p-4 rounded-2xl text-center">
-                    <p class="text-[9px] font-bold text-slate-500 uppercase">Profit £</p>
-                    <p id="profitVal" class="text-2xl font-black text-white">£0.00</p>
+    <div class="flex items-center justify-center p-6">
+        <div class="bg-[#1e293b] p-8 rounded-[2.5rem] shadow-2xl w-full max-w-md border border-slate-700">
+            <h1 class="text-2xl font-black italic mb-6 text-center text-yellow-400 uppercase">Profit Calculator 📈</h1>
+            
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Buying Price (£)</label>
+                    <input type="number" id="costPrice" oninput="calculate()" placeholder="0.00" class="w-full bg-[#0f172a] border-none p-4 rounded-2xl text-xl font-bold text-white outline-none">
                 </div>
-                <div class="bg-slate-900 p-4 rounded-2xl text-center">
-                    <p class="text-[9px] font-bold text-slate-500 uppercase">Margin %</p>
-                    <p id="marginVal" class="text-2xl font-black text-yellow-400">0%</p>
+
+                <div>
+                    <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Selling Price (£)</label>
+                    <input type="number" id="salePrice" oninput="calculate()" placeholder="0.00" class="w-full bg-[#0f172a] border-none p-4 rounded-2xl text-xl font-bold text-white outline-none">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 pt-4">
+                    <div class="bg-[#0f172a] p-4 rounded-2xl text-center">
+                        <p class="text-[9px] font-bold text-slate-500 uppercase">Profit</p>
+                        <p id="profitVal" class="text-2xl font-black text-white">£0.00</p>
+                    </div>
+                    <div class="bg-[#0f172a] p-4 rounded-2xl text-center">
+                        <p class="text-[9px] font-bold text-slate-500 uppercase">Margin</p>
+                        <p id="marginVal" class="text-2xl font-black text-yellow-400">0%</p>
+                    </div>
                 </div>
             </div>
-
-            <p id="message" class="text-center text-sm font-bold italic text-slate-500 pt-2 italic"></p>
         </div>
     </div>
 
+    <hr class="border-slate-800 my-10">
+
+    <div class="text-center pb-20">
+        <p class="text-slate-400 text-sm mb-4">Click below to go to your Shop</p>
+        <button onclick="location.href='index.html'" class="bg-yellow-400 text-black px-10 py-4 rounded-full font-black uppercase italic shadow-xl">Open HEPM Shop</button>
+    </div>
+
     <script>
+        // --- Calculator Logic ---
         function calculate() {
             const cost = parseFloat(document.getElementById('costPrice').value) || 0;
             const sale = parseFloat(document.getElementById('salePrice').value) || 0;
-            const profitVal = document.getElementById('profitVal');
-            const marginVal = document.getElementById('marginVal');
-            const message = document.getElementById('message');
-
             const profit = sale - cost;
             const margin = sale > 0 ? (profit / sale) * 100 : 0;
 
-            profitVal.innerText = `£${profit.toFixed(2)}`;
-            marginVal.innerText = `${Math.round(margin)}%`;
+            document.getElementById('profitVal').innerText = `£${profit.toFixed(2)}`;
+            document.getElementById('marginVal').innerText = `${Math.round(margin)}%`;
+        }
 
-            if (profit > 0) {
-                message.innerText = "Good Profit! 🔥";
-                message.className = "text-center text-sm font-bold italic text-green-400 pt-2";
-            } else if (profit < 0) {
-                message.innerText = "Losing Money! ⚠️";
-                message.className = "text-center text-sm font-bold italic text-red-400 pt-2";
-            } else {
-                message.innerText = "Break Even";
-                message.className = "text-center text-sm font-bold italic text-slate-500 pt-2";
-            }
+        // --- WhatsApp Link Fix (In your Shop script) ---
+        // ነዚ ዝስዕብ ክፍሊ ኣብቲ ናይ Shop (index.html) ፋይልካ ተጠቐመሉ፦
+        function confirmAndSend() {
+            const name = document.getElementById('custName').value;
+            const phone = document.getElementById('custPhone').value;
+            const street = document.getElementById('custStreet').value;
+            const postcode = document.getElementById('custPostcode').value.toUpperCase();
+
+            // 🚩 እቲ ቀንዲ መፍትሒ እዞም ሰለስተ መስመራት እዮም (Links)
+            const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(street + ' ' + postcode)}`;
+            const callLink = `tel:${phone}`;
+
+            const msg = `*NEW ORDER* 📍\n` +
+                        `--------------------------\n` +
+                        `👤 Name: ${name}\n` +
+                        `📞 Call: ${phone}\n` + // እዚ ኣብ WhatsApp ከም ሰማያዊ ሊንክ ክመጽእ እዩ
+                        `🏠 Address: ${street}, ${postcode}\n\n` +
+                        `📍 *Google Maps:*\n${mapLink}\n` + // እዚ ሰማያዊ ሊንክ (Underscore) ክኸውን እዩ
+                        `--------------------------`;
+
+            window.location.href = `https://api.whatsapp.com/send?phone=447448700978&text=${encodeURIComponent(msg)}`;
         }
     </script>
 </body>

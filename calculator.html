@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HEPM FAMILY | Auto Tracker</title>
+    <title>HEPM FAMILY | Pro Tracker</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -12,70 +12,76 @@
     <div class="max-w-4xl mx-auto space-y-6">
         
         <div class="flex justify-between items-center bg-[#111] p-6 rounded-[2rem] border border-white/5 shadow-xl">
-            <h1 class="text-xl font-black italic text-green-500 uppercase">HEPM FAMILY AUTO-LOG</h1>
-            <button onclick="resetAllData()" class="text-[9px] bg-red-500/10 text-red-500 px-4 py-2 rounded-full font-bold uppercase hover:bg-red-500 hover:text-white transition-all">Clear All Data</button>
+            <h1 class="text-xl font-black italic text-green-500 uppercase italic tracking-tighter">HEPM FAMILY MANAGER</h1>
+            <div class="space-x-2">
+                <button onclick="resetAllData()" class="text-[9px] bg-red-500/10 text-red-500 px-4 py-2 rounded-full font-bold uppercase hover:bg-red-500 transition-all">Reset All</button>
+            </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             
-            <div class="md:col-span-1 bg-[#111] p-6 rounded-[2.5rem] border border-white/5 space-y-4">
-                <h2 class="text-[10px] font-black uppercase text-slate-500 tracking-widest border-b border-white/5 pb-2">New Sale</h2>
+            <div class="md:col-span-1 bg-[#111] p-8 rounded-[3rem] border border-green-500/10 space-y-6 shadow-2xl">
+                <h2 class="text-[10px] font-black uppercase text-green-500 tracking-[0.2em] mb-4">New Entry</h2>
                 
-                <div class="space-y-3">
-                    <label class="block text-[10px] text-slate-500 uppercase">Grams Sold</label>
-                    <input type="number" id="saleWeight" placeholder="e.g. 3.5" class="w-full bg-black p-4 rounded-2xl font-black text-white border border-white/5 outline-none focus:border-green-500">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-[10px] text-slate-500 uppercase font-bold mb-2 italic">Weight Sold (Grams)</label>
+                        <input type="number" id="saleWeight" placeholder="e.g. 10" class="w-full bg-black p-5 rounded-[1.5rem] font-black text-2xl text-white border border-white/5 outline-none focus:border-green-500 transition-all">
+                    </div>
                     
-                    <label class="block text-[10px] text-slate-500 uppercase">Money Received (£)</label>
-                    <input type="number" id="salePrice" placeholder="e.g. 40" class="w-full bg-black p-4 rounded-2xl font-black text-green-500 border border-white/5 outline-none focus:border-green-500">
+                    <div>
+                        <label class="block text-[10px] text-slate-500 uppercase font-bold mb-2 italic">Cash Received (£)</label>
+                        <input type="number" id="salePrice" placeholder="e.g. 100" class="w-full bg-black p-5 rounded-[1.5rem] font-black text-2xl text-green-500 border border-white/5 outline-none focus:border-green-500 transition-all">
+                    </div>
                 </div>
 
-                <button onclick="saveSale()" class="w-full bg-green-600 text-white p-5 rounded-3xl font-black uppercase tracking-widest shadow-lg shadow-green-600/20 hover:scale-[1.02] active:scale-95 transition-all mt-4">
-                    Save Sale ✅
+                <button onclick="saveSale()" class="w-full bg-green-600 text-white py-6 rounded-[2rem] font-black uppercase tracking-widest shadow-xl shadow-green-600/20 hover:scale-[1.02] active:scale-95 transition-all">
+                    Save Record ✅
                 </button>
             </div>
 
             <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
                 
-                <div class="bg-[#111] p-6 rounded-[2.5rem] border border-blue-500/20 flex flex-col justify-center text-center">
-                    <span class="text-[10px] font-black uppercase text-blue-400 tracking-widest">Remaining Stock</span>
-                    <div id="displayStock" class="text-5xl font-black mt-2">10,000g</div>
-                    <div class="w-full bg-white/5 h-2 rounded-full mt-4 overflow-hidden">
+                <div class="bg-[#111] p-8 rounded-[3rem] border border-blue-500/20 text-center shadow-lg">
+                    <span class="text-[10px] font-black uppercase text-blue-400 tracking-widest">Inventory Balance</span>
+                    <div id="displayStock" class="text-5xl font-black mt-2 tracking-tighter">10,000g</div>
+                    <div class="w-full bg-white/5 h-2 rounded-full mt-6 overflow-hidden">
                         <div id="stockBar" class="bg-blue-500 h-full w-full transition-all duration-1000"></div>
                     </div>
                 </div>
 
-                <div class="bg-[#111] p-6 rounded-[2.5rem] border border-yellow-500/20 flex flex-col justify-center text-center">
-                    <span class="text-[10px] font-black uppercase text-yellow-500 tracking-widest">Total Revenue</span>
+                <div class="bg-[#111] p-8 rounded-[3rem] border border-yellow-500/20 text-center shadow-lg">
+                    <span class="text-[10px] font-black uppercase text-yellow-500 tracking-widest italic">Total Revenue</span>
                     <div id="totalRevenue" class="text-5xl font-black mt-2 text-white">£0</div>
-                    <p class="text-[9px] text-slate-500 mt-2 uppercase">Total Cash Collected</p>
+                    <p class="text-[9px] text-slate-500 mt-3 uppercase font-bold">Accumulated Balance</p>
                 </div>
 
-                <div class="md:col-span-2 bg-white/5 p-6 rounded-[2.5rem] grid grid-cols-3 gap-4 text-center">
+                <div class="md:col-span-2 bg-gradient-to-r from-green-900/10 to-transparent p-8 rounded-[3rem] border border-white/5 grid grid-cols-3 gap-4 text-center">
                     <div>
-                        <span class="text-[9px] font-bold text-slate-500 uppercase">Today</span>
-                        <div id="statToday" class="text-xl font-black text-green-500">£0</div>
+                        <span class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Today</span>
+                        <div id="statToday" class="text-2xl font-black text-green-500 mt-1">£0</div>
                     </div>
-                    <div class="border-x border-white/10">
-                        <span class="text-[9px] font-bold text-slate-500 uppercase">This Week</span>
-                        <div id="statWeek" class="text-xl font-black text-white">£0</div>
+                    <div class="border-x border-white/5">
+                        <span class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Week</span>
+                        <div id="statWeek" class="text-2xl font-black text-white mt-1">£0</div>
                     </div>
                     <div>
-                        <span class="text-[9px] font-bold text-slate-500 uppercase">This Month</span>
-                        <div id="statMonth" class="text-xl font-black text-white">£0</div>
+                        <span class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Month</span>
+                        <div id="statMonth" class="text-2xl font-black text-white mt-1">£0</div>
                     </div>
                 </div>
             </div>
 
         </div>
 
-        <button onclick="location.href='index.html'" class="w-full text-center text-slate-600 font-bold text-[10px] uppercase tracking-[0.5em] py-10 hover:text-green-500 transition-all italic">
-            ← BACK TO SHOP
+        <button onclick="location.href='index.html'" class="w-full text-center text-slate-700 font-bold text-[10px] uppercase tracking-[0.5em] py-10 hover:text-green-500 transition-all italic">
+            ← BACK TO FAMILY SHOP
         </button>
     </div>
 
     <script>
-        // Load data from LocalStorage (it stays even if you refresh)
-        let data = JSON.parse(localStorage.getItem('hepm_data')) || {
+        // Load data from Storage
+        let data = JSON.parse(localStorage.getItem('hepm_v3_data')) || {
             stock: 10000,
             revenue: 0,
             today: 0,
@@ -92,28 +98,29 @@
             document.getElementById('statMonth').innerText = '£' + data.month.toLocaleString();
             
             let percent = (data.stock / 10000) * 100;
-            document.getElementById('stockBar').style.width = percent + '%';
+            document.getElementById('stockBar').style.width = (percent < 0 ? 0 : percent) + '%';
             
-            localStorage.setItem('hepm_data', JSON.stringify(data));
+            localStorage.setItem('hepm_v3_data', JSON.stringify(data));
         }
 
         function saveSale() {
+            // ሕጂ እቲ ቁጽሪ ብትኽክል ካብቲ Input ይወስዶ ኣሎ
             const weight = parseFloat(document.getElementById('saleWeight').value) || 0;
             const price = parseFloat(document.getElementById('salePrice').value) || 0;
 
             if (weight <= 0 || price <= 0) {
-                alert("Enter correct weight and price!");
+                alert("Please enter a valid amount!");
                 return;
             }
 
-            // Calculations
+            // Calculations: እቲ ሒሳብ ኣብቲ ዝጸሓፍካዮ ቁጽሪ ጥራይ ይምርኮስ
             data.stock -= weight;
             data.revenue += price;
             data.today += price;
             data.week += price;
             data.month += price;
 
-            // Clear inputs
+            // Clear inputs for next entry
             document.getElementById('saleWeight').value = '';
             document.getElementById('salePrice').value = '';
 
@@ -121,13 +128,13 @@
         }
 
         function resetAllData() {
-            if(confirm("Are you sure? This will reset all your stock and history!")) {
+            if(confirm("DANGER: This will delete everything! Ready?")) {
                 data = { stock: 10000, revenue: 0, today: 0, week: 0, month: 0, lastReset: new Date().toDateString() };
                 updateUI();
             }
         }
 
-        // Auto-reset "Today" if date changed
+        // Daily Reset Check
         if (data.lastReset !== new Date().toDateString()) {
             data.today = 0;
             data.lastReset = new Date().toDateString();

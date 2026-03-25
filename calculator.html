@@ -3,102 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HEPM FAMILY | Recovery Tracker</title>
+    <title>HEPM FAMILY | Auto Tracker</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="bg-[#050505] text-white font-sans min-h-screen flex items-center justify-center p-4">
+<body class="bg-[#050505] text-white font-sans min-h-screen p-4">
 
-    <div class="bg-[#111] p-8 rounded-[3rem] shadow-2xl w-full max-w-3xl border border-blue-500/20">
-        <div class="flex justify-between items-center mb-8 border-b border-white/5 pb-4">
-            <h1 class="text-xl font-black italic text-blue-500 uppercase tracking-widest">Investment Recovery</h1>
-            <span class="text-[9px] bg-blue-500/10 text-blue-400 px-3 py-1 rounded-full font-bold uppercase tracking-widest">Live Status</span>
-        </div>
+    <div class="max-w-4xl mx-auto space-y-6">
         
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div class="space-y-4">
-                <div class="bg-white/5 p-5 rounded-3xl">
-                    <label class="block text-[10px] font-black uppercase text-slate-500 mb-2">💰 Initial Investment (£)</label>
-                    <input type="number" id="initInvest" oninput="calculate()" placeholder="4000" value="4000" class="w-full bg-transparent text-3xl font-black text-white outline-none">
-                </div>
-
-                <div class="bg-white/5 p-5 rounded-3xl">
-                    <label class="block text-[10px] font-black uppercase text-slate-500 mb-2">📦 Total Bag Stock (Grams)</label>
-                    <input type="number" id="totalStock" oninput="calculate()" placeholder="10000" value="10000" class="w-full bg-transparent text-3xl font-black text-white outline-none">
-                </div>
-
-                <div class="bg-yellow-500/5 p-6 rounded-3xl border border-yellow-500/20">
-                    <label class="block text-[10px] font-black uppercase text-yellow-500 mb-3 italic tracking-widest">Today's Sale</label>
-                    <div class="grid grid-cols-2 gap-4">
-                        <input type="number" id="saleWeight" oninput="calculate()" placeholder="Weight (g)" class="w-full bg-black/40 p-3 rounded-xl font-black text-white outline-none">
-                        <input type="number" id="salePrice" oninput="calculate()" placeholder="Price (£)" class="w-full bg-black/40 p-3 rounded-xl font-black text-green-400 outline-none">
-                    </div>
-                </div>
-            </div>
-
-            <div class="space-y-4">
-                <div class="bg-blue-600/10 border border-blue-500/30 p-8 rounded-[2.5rem] text-center">
-                    <span class="text-[10px] font-black uppercase text-blue-400 tracking-[0.2em]">Investment Payback</span>
-                    <div id="recoveryStatus" class="text-3xl font-black mt-2 text-white italic">0% Recovered</div>
-                    <div class="w-full bg-white/5 h-3 rounded-full mt-4 overflow-hidden border border-white/5">
-                        <div id="recoveryBar" class="bg-blue-500 h-full w-0 transition-all duration-1000"></div>
-                    </div>
-                </div>
-
-                <div class="bg-green-600/10 border border-green-500/30 p-6 rounded-[2.5rem] text-center">
-                    <span class="text-[10px] font-black uppercase text-green-400 tracking-widest">Net Profit (Today)</span>
-                    <div id="netProfit" class="text-4xl font-black mt-1 text-white">£0.00</div>
-                    <p class="text-[9px] text-slate-500 mt-2 uppercase font-bold italic tracking-wider">After Cost Deduction</p>
-                </div>
-
-                <div class="bg-white/5 p-4 rounded-2xl flex justify-between items-center px-6">
-                    <span class="text-[10px] font-bold text-slate-500 uppercase italic">Remaining Stock:</span>
-                    <span id="remainingStock" class="text-lg font-black text-white">10,000g</span>
-                </div>
-            </div>
+        <div class="flex justify-between items-center bg-[#111] p-6 rounded-[2rem] border border-white/5 shadow-xl">
+            <h1 class="text-xl font-black italic text-green-500 uppercase">HEPM FAMILY AUTO-LOG</h1>
+            <button onclick="resetAllData()" class="text-[9px] bg-red-500/10 text-red-500 px-4 py-2 rounded-full font-bold uppercase hover:bg-red-500 hover:text-white transition-all">Clear All Data</button>
         </div>
 
-        <button onclick="location.href='index.html'" class="w-full mt-10 text-slate-600 font-bold text-[10px] uppercase tracking-[0.4em] hover:text-blue-400 transition-all italic">
-            ← HEPM FAMILY SHOP
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <div class="md:col-span-1 bg-[#111] p-6 rounded-[2.5rem] border border-white/5 space-y-4">
+                <h2 class="text-[10px] font-black uppercase text-slate-500 tracking-widest border-b border-white/5 pb-2">New Sale</h2>
+                
+                <div class="space-y-3">
+                    <label class="block text-[10px] text-slate-500 uppercase">Grams Sold</label>
+                    <input type="number" id="saleWeight" placeholder="e.g. 3.5" class="w-full bg-black p-4 rounded-2xl font-black text-white border border-white/5 outline-none focus:border-green-500">
+                    
+                    <label class="block text-[10px] text-slate-500 uppercase">Money Received (£)</label>
+                    <input type="number" id="salePrice" placeholder="e.g. 40" class="w-full bg-black p-4 rounded-2xl font-black text-green-500 border border-white/5 outline-none focus:border-green-500">
+                </div>
+
+                <button onclick="saveSale()" class="w-full bg-green-600 text-white p-5 rounded-3xl font-black uppercase tracking-widest shadow-lg shadow-green-600/20 hover:scale-[1.02] active:scale-95 transition-all mt-4">
+                    Save Sale ✅
+                </button>
+            </div>
+
+            <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <div class="bg-[#111] p-6 rounded-[2.5rem] border border-blue-500/20 flex flex-col justify-center text-center">
+                    <span class="text-[10px] font-black uppercase text-blue-400 tracking-widest">Remaining Stock</span>
+                    <div id="displayStock" class="text-5xl font-black mt-2">10,000g</div>
+                    <div class="w-full bg-white/5 h-2 rounded-full mt-4 overflow-hidden">
+                        <div id="stockBar" class="bg-blue-500 h-full w-full transition-all duration-1000"></div>
+                    </div>
+                </div>
+
+                <div class="bg-[#111] p-6 rounded-[2.5rem] border border-yellow-500/20 flex flex-col justify-center text-center">
+                    <span class="text-[10px] font-black uppercase text-yellow-500 tracking-widest">Total Revenue</span>
+                    <div id="totalRevenue" class="text-5xl font-black mt-2 text-white">£0</div>
+                    <p class="text-[9px] text-slate-500 mt-2 uppercase">Total Cash Collected</p>
+                </div>
+
+                <div class="md:col-span-2 bg-white/5 p-6 rounded-[2.5rem] grid grid-cols-3 gap-4 text-center">
+                    <div>
+                        <span class="text-[9px] font-bold text-slate-500 uppercase">Today</span>
+                        <div id="statToday" class="text-xl font-black text-green-500">£0</div>
+                    </div>
+                    <div class="border-x border-white/10">
+                        <span class="text-[9px] font-bold text-slate-500 uppercase">This Week</span>
+                        <div id="statWeek" class="text-xl font-black text-white">£0</div>
+                    </div>
+                    <div>
+                        <span class="text-[9px] font-bold text-slate-500 uppercase">This Month</span>
+                        <div id="statMonth" class="text-xl font-black text-white">£0</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <button onclick="location.href='index.html'" class="w-full text-center text-slate-600 font-bold text-[10px] uppercase tracking-[0.5em] py-10 hover:text-green-500 transition-all italic">
+            ← BACK TO SHOP
         </button>
     </div>
 
     <script>
-        // Use a simple variable to track cumulative sales for the session
-        let totalSalesToDate = 0;
+        // Load data from LocalStorage (it stays even if you refresh)
+        let data = JSON.parse(localStorage.getItem('hepm_data')) || {
+            stock: 10000,
+            revenue: 0,
+            today: 0,
+            week: 0,
+            month: 0,
+            lastReset: new Date().toDateString()
+        };
 
-        function calculate() {
-            const invest = parseFloat(document.getElementById('initInvest').value) || 0;
-            const totalStock = parseFloat(document.getElementById('totalStock').value) || 0;
-            const saleWeight = parseFloat(document.getElementById('saleWeight').value) || 0;
-            const salePrice = parseFloat(document.getElementById('salePrice').value) || 0;
-
-            // 1. Logic for Cost Recovery
-            // Cost per gram based on investment of 4,000g for £4000
-            // Since £4000 is for 10,000g total (but effectively you're paying for 4000g)
-            // We use the 4000 investment to see how much each gram costs out of the total.
-            const costPerGram = invest / totalStock;
-            const portionCost = costPerGram * saleWeight;
-            const currentProfit = salePrice - portionCost;
-
-            // 2. Recovery Logic (Simulated for this sale)
-            // How much of the £4000 is covered by this sale's price?
-            const recoveryPercent = (salePrice / invest) * 100;
-
-            // 3. Inventory Logic
-            const remaining = totalStock - saleWeight;
-
-            // Update UI
-            document.getElementById('netProfit').innerText = `£${currentProfit.toFixed(2)}`;
-            document.getElementById('remainingStock').innerText = `${remaining.toLocaleString()}g`;
-            document.getElementById('recoveryBar').style.width = (recoveryPercent > 100 ? 100 : recoveryPercent) + "%";
-            document.getElementById('recoveryStatus').innerText = recoveryPercent.toFixed(1) + "% Recovered";
+        function updateUI() {
+            document.getElementById('displayStock').innerText = data.stock.toLocaleString() + 'g';
+            document.getElementById('totalRevenue').innerText = '£' + data.revenue.toLocaleString();
+            document.getElementById('statToday').innerText = '£' + data.today.toLocaleString();
+            document.getElementById('statWeek').innerText = '£' + data.week.toLocaleString();
+            document.getElementById('statMonth').innerText = '£' + data.month.toLocaleString();
             
-            if(recoveryPercent >= 100) {
-                document.getElementById('recoveryStatus').innerText = "100% PROFIT MODE";
-                document.getElementById('recoveryBar').classList.replace('bg-blue-500', 'bg-green-500');
+            let percent = (data.stock / 10000) * 100;
+            document.getElementById('stockBar').style.width = percent + '%';
+            
+            localStorage.setItem('hepm_data', JSON.stringify(data));
+        }
+
+        function saveSale() {
+            const weight = parseFloat(document.getElementById('saleWeight').value) || 0;
+            const price = parseFloat(document.getElementById('salePrice').value) || 0;
+
+            if (weight <= 0 || price <= 0) {
+                alert("Enter correct weight and price!");
+                return;
+            }
+
+            // Calculations
+            data.stock -= weight;
+            data.revenue += price;
+            data.today += price;
+            data.week += price;
+            data.month += price;
+
+            // Clear inputs
+            document.getElementById('saleWeight').value = '';
+            document.getElementById('salePrice').value = '';
+
+            updateUI();
+        }
+
+        function resetAllData() {
+            if(confirm("Are you sure? This will reset all your stock and history!")) {
+                data = { stock: 10000, revenue: 0, today: 0, week: 0, month: 0, lastReset: new Date().toDateString() };
+                updateUI();
             }
         }
+
+        // Auto-reset "Today" if date changed
+        if (data.lastReset !== new Date().toDateString()) {
+            data.today = 0;
+            data.lastReset = new Date().toDateString();
+            updateUI();
+        }
+
+        window.onload = updateUI;
     </script>
 </body>
 </html>

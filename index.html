@@ -1,142 +1,57 @@
- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HEPM FAMILY SHOP</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        .product-card {
-            border-radius: 2.5rem;
-            transition: all 0.3s ease;
-        }
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
-        }
-        .glass-nav {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-        }
-    </style>
-</head>
-<body class="bg-[#f8f9fa] min-h-screen font-sans">
-
-    <div class="bg-stone-900 text-stone-400 py-2 text-[9px] font-bold uppercase tracking-[0.2em] text-center">
-        Local Delivery • Uxbridge • Quality First
+ <div class="order-form" style="max-width: 500px; margin: auto; padding: 20px; background: #fff; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+    <h2 style="color: #D4AF37;">HEPM SHOP ORDER</h2>
+    
+    <div class="input-group" style="margin-bottom: 15px; text-align: left;">
+        <label>Full Name / ምሉእ ስም</label>
+        <input type="text" id="custName" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd;">
     </div>
 
-    <nav class="glass-nav sticky top-0 z-50 p-5 flex justify-between items-center border-b border-stone-100">
-        <div>
-            <h1 class="text-xl font-black text-stone-800 tracking-tighter italic">HEPM <span class="text-green-600">FAMILY</span></h1>
-        </div>
-        <button onclick="location.href='calculator.html'" class="bg-stone-100 p-3 rounded-2xl text-stone-600 hover:bg-stone-200 transition-colors">
-            <i class="fa-solid fa-chart-line"></i>
-        </button>
-    </nav>
-
-    <main class="max-w-6xl mx-auto p-4 md:p-8">
-        <div id="productGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
-            </div>
-    </main>
-
-    <div id="orderModal" class="hidden fixed inset-0 bg-stone-900/80 backdrop-blur-md z-[110] flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-md rounded-[3rem] p-8 shadow-2xl overflow-y-auto max-h-[90vh]">
-            <div class="text-center mb-6">
-                <div class="w-12 h-1 bg-stone-200 mx-auto rounded-full mb-6"></div>
-                <h2 id="modalTitle" class="text-2xl font-black text-stone-800 uppercase italic"></h2>
-            </div>
-            
-            <div class="space-y-4">
-                <div class="bg-stone-50 p-4 rounded-3xl">
-                    <label class="text-[10px] font-black uppercase text-stone-400 block mb-2">Select Quantity</label>
-                    <select id="weightSelect" class="w-full bg-transparent font-black text-lg outline-none cursor-pointer"></select>
-                </div>
-
-                <div class="space-y-3">
-                    <input type="text" id="custName" placeholder="Name" class="w-full p-5 bg-stone-50 rounded-[1.8rem] font-bold outline-none focus:ring-2 focus:ring-green-500/20">
-                    <input type="tel" id="custPhone" placeholder="Phone" class="w-full p-5 bg-stone-50 rounded-[1.8rem] font-bold outline-none focus:ring-2 focus:ring-green-500/20">
-                    <input type="text" id="custStreet" placeholder="Street Address" class="w-full p-5 bg-stone-50 rounded-[1.8rem] font-bold outline-none focus:ring-2 focus:ring-green-500/20">
-                    <input type="text" id="custPostcode" placeholder="Postcode" class="w-full p-5 bg-stone-50 rounded-[1.8rem] font-bold outline-none uppercase">
-                </div>
-                
-                <button onclick="confirmAndSend()" class="w-full bg-green-600 text-white p-6 rounded-[2rem] font-black uppercase tracking-widest shadow-xl shadow-green-600/20 hover:bg-green-700 transition-all mt-4">
-                    Place Order <i class="fab fa-whatsapp ml-2"></i>
-                </button>
-                <button onclick="closeModal()" class="w-full text-stone-400 font-bold text-[10px] uppercase mt-4">Maybe Later</button>
-            </div>
-        </div>
+    <div class="input-group" style="margin-bottom: 15px; text-align: left;">
+        <label>Product / ዓይነት ፍርያት</label>
+        <select id="custProduct" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd;">
+            <option value="Teff">White Teff / ጻዕዳ ጣፍ</option>
+            <option value="Brown Teff">Brown Teff / ቀይሕ ጣፍ</option>
+            <option value="Berbere">Berbere / በርበረ</option>
+        </select>
     </div>
 
-    <script>
-        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQH4oZK0msDak510wlcSWZf0Oo39Ncj3pZsSZkU2YhO4XnSEH6F6UrX9AqmBKHSiMRBcXzNodNb0hzR/pub?output=csv';
-        const MY_PHONE = "447448700978";
+    <div class="input-group" style="margin-bottom: 15px; text-align: left;">
+        <label>Weight (Kilo) / ክብደት ብኪሎ</label>
+        <select id="custWeight" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd;">
+            <option value="1kg">1 Kilo</option>
+            <option value="2kg">2 Kilo</option>
+            <option value="5kg">5 Kilo</option>
+            <option value="10kg">10 Kilo</option>
+            <option value="25kg">25 Kilo</option>
+        </select>
+    </div>
 
-        async function loadShop() {
-            try {
-                const response = await fetch(SHEET_URL);
-                const data = await response.text();
-                const rows = data.split('\n').slice(1);
-                const grid = document.getElementById('productGrid');
-                grid.innerHTML = '';
-                rows.forEach(row => {
-                    const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                    if(cols.length >= 1) {
-                        const name = cols[0].replace(/"/g, '').trim();
-                        const img = cols[2] ? cols[2].replace(/"/g, '').trim() : '';
-                        if(!name) return;
-                        
-                        // 📦 እቲ ሓድሽ Box Design
-                        const card = document.createElement('div');
-                        card.className = "product-card bg-white border border-stone-100 overflow-hidden flex flex-col";
-                        card.innerHTML = `
-                            <div class="aspect-square overflow-hidden bg-stone-100">
-                                <img src="${img}" class="w-full h-full object-cover">
-                            </div>
-                            <div class="p-5 text-center">
-                                <h3 class="text-[11px] font-black uppercase text-stone-800 mb-4 tracking-tighter leading-tight">${name}</h3>
-                                <button onclick="openModal('${name}')" class="w-full bg-stone-900 text-white py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest">
-                                    Choose
-                                </button>
-                            </div>
-                        `;
-                        grid.appendChild(card);
-                    }
-                });
-            } catch (err) { console.error(err); }
-        }
+    <div class="input-group" style="margin-bottom: 20px; text-align: left;">
+        <label>Phone Number / ቁጽሪ ተሌፎን</label>
+        <input type="tel" id="custPhone" placeholder="+49..." style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd;">
+    </div>
 
-        function openModal(name) {
-            document.getElementById('modalTitle').innerText = name;
-            const select = document.getElementById('weightSelect');
-            select.innerHTML = '';
-            const lowerName = name.toLowerCase();
-            let options = (lowerName.includes('hash') || lowerName.includes('sift')) ? ["1g - £15", "2g - £25", "3.5g - £40"] : ["3.5g - £40", "7g - £70", "14g - £130"];
-            options.forEach(opt => {
-                const o = document.createElement('option'); o.text = opt; o.value = opt;
-                select.add(o);
-            });
-            document.getElementById('orderModal').classList.remove('hidden');
-        }
+    <button onclick="submitToWhatsApp()" style="width: 100%; padding: 15px; background: #25D366; color: white; border: none; border-radius: 50px; font-size: 18px; font-weight: bold; cursor: pointer;">
+        SEND ORDER VIA WHATSAPP
+    </button>
+</div>
 
-        function closeModal() { document.getElementById('orderModal').classList.add('hidden'); }
+<script>
+function submitToWhatsApp() {
+    const name = document.getElementById('custName').value;
+    const product = document.getElementById('custProduct').value;
+    const weight = document.getElementById('custWeight').value;
+    const phone = document.getElementById('custPhone').value;
 
-        function confirmAndSend() {
-            const name = document.getElementById('custName').value.trim();
-            const phone = document.getElementById('custPhone').value.trim();
-            const street = document.getElementById('custStreet').value.trim();
-            const postcode = document.getElementById('custPostcode').value.trim().toUpperCase();
-            const weightPrice = document.getElementById('weightSelect').value;
+    if(name === "" || phone === "") {
+        alert("በጃኹም ስምኩምን ቁጽሪ ተሌፎንኩምን ምልኡ!");
+        return;
+    }
 
-            if(!name || !phone || !street || !postcode) { alert("Please fill all details! 😊"); return; }
-
-            const mapLink = `http://maps.google.com/?q=${encodeURIComponent(street + ' ' + postcode)}`;
-            const msg = `*HEPM FAMILY ORDER* 🏠\n--------------------------\n💰 *Total:* ${weightPrice}\n📦 *Item:* ${document.getElementById('modalTitle').innerText}\n\n*Info:*\n👤 Name: ${name}\n📞 Call: ${phone}\n🏠 Address: ${street}, ${postcode}\n\n📍 *Maps:*\n${mapLink}`;
-            
-            window.location.href = `https://api.whatsapp.com/send?phone=${MY_PHONE}&text=${encodeURIComponent(msg)}`;
-        }
-        window.onload = loadShop;
-    </script>
-</body>
-</html>
+    // ናብ WhatsApp መልእኽቲ ንምስዳድ
+    const message = `HEPM SHOP ORDER:%0AName: ${name}%0AProduct: ${product}%0AWeight: ${weight}%0APhone: ${phone}`;
+    const whatsappURL = `https://wa.me/49123456789?text=${message}`; // ኣብዚ ቁጽሪ ተሌፎንካ ተካእዮ
+    
+    window.open(whatsappURL, '_blank');
+}
+</script>

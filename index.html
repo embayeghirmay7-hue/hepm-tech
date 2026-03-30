@@ -1,57 +1,117 @@
- <div class="order-form" style="max-width: 500px; margin: auto; padding: 20px; background: #fff; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-    <h2 style="color: #D4AF37;">HEPM SHOP ORDER</h2>
-    
-    <div class="input-group" style="margin-bottom: 15px; text-align: left;">
-        <label>Full Name / ምሉእ ስም</label>
-        <input type="text" id="custName" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd;">
+ <!DOCTYPE html>
+<html lang="ti">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEPM SHOP - Order Now</title>
+    <style>
+        :root { --gold: #D4AF37; --dark: #1a1a1a; --white: #ffffff; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f8f9fa; margin: 0; padding: 0; }
+        
+        /* Header & Logo */
+        header { background: var(--dark); color: white; padding: 25px; text-align: center; border-bottom: 5px solid var(--gold); }
+        .logo { font-size: 32px; font-weight: 900; letter-spacing: 3px; margin: 0; }
+        .logo span { color: var(--gold); }
+
+        .container { max-width: 600px; margin: 30px auto; padding: 20px; }
+
+        /* Order Card */
+        .order-card { background: var(--white); border-radius: 25px; padding: 30px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); border: 1px solid #eee; }
+        h2 { color: var(--dark); margin-bottom: 25px; font-size: 24px; text-decoration: underline; text-decoration-color: var(--gold); }
+
+        /* Input Styles */
+        .group { margin-bottom: 20px; text-align: left; }
+        label { display: block; margin-bottom: 8px; font-weight: 700; color: #444; font-size: 14px; }
+        input, select { width: 100%; padding: 15px; border: 2px solid #eee; border-radius: 12px; font-size: 16px; box-sizing: border-box; transition: 0.3s; }
+        input:focus, select:focus { border-color: var(--gold); outline: none; background: #fffdf5; }
+
+        /* WhatsApp Button */
+        .btn-whatsapp { 
+            background: #25D366; color: white; border: none; width: 100%; padding: 20px; 
+            font-size: 18px; font-weight: bold; border-radius: 50px; cursor: pointer; 
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.2); transition: 0.3s; margin-top: 10px;
+        }
+        .btn-whatsapp:hover { transform: translateY(-3px); box-shadow: 0 15px 25px rgba(37, 211, 102, 0.3); }
+
+        .footer { text-align: center; margin-top: 30px; color: #aaa; font-size: 12px; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 class="logo">HEPM <span>SHOP</span></h1>
+</header>
+
+<div class="container">
+    <div class="order-card">
+        <h2>🛍️ ቅጥዒ ትእዛዝ (Order Form)</h2>
+
+        <div class="group">
+            <label>FULL NAME / ምሉእ ስም</label>
+            <input type="text" id="name" placeholder="ኣብዚ ጸሓፉ...">
+        </div>
+
+        <div class="group">
+            <label>SELECT PRODUCT / ፍርያት ምረጽ</label>
+            <select id="product">
+                <option value="White Teff">White Teff / ጻዕዳ ጣፍ</option>
+                <option value="Brown Teff">Brown Teff / ቀይሕ ጣፍ</option>
+                <option value="Berbere">Berbere / በርበረ</option>
+                <option value="Shiro">Shiro / ሽሮ</option>
+                <option value="Coffee">Coffee / ቡን</option>
+            </select>
+        </div>
+
+        <div class="group">
+            <label>WEIGHT (Kilo) / መጠን ብኪሎ</label>
+            <select id="weight">
+                <option value="1kg">1 Kilo (ኪሎ)</option>
+                <option value="2kg">2 Kilo (ኪሎ)</option>
+                <option value="5kg">5 Kilo (ኪሎ)</option>
+                <option value="10kg">10 Kilo (ኪሎ)</option>
+                <option value="25kg">25 Kilo (ኪሎ)</option>
+            </select>
+        </div>
+
+        <div class="group">
+            <label>PHONE NUMBER / ቁጽሪ ተሌፎን</label>
+            <input type="tel" id="phone" placeholder="+49 ...">
+        </div>
+
+        <button class="btn-whatsapp" onclick="sendToWhatsApp()">
+            ORDER VIA WHATSAPP 📱
+        </button>
     </div>
 
-    <div class="input-group" style="margin-bottom: 15px; text-align: left;">
-        <label>Product / ዓይነት ፍርያት</label>
-        <select id="custProduct" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd;">
-            <option value="Teff">White Teff / ጻዕዳ ጣፍ</option>
-            <option value="Brown Teff">Brown Teff / ቀይሕ ጣፍ</option>
-            <option value="Berbere">Berbere / በርበረ</option>
-        </select>
+    <div class="footer">
+        © 2026 HEPM SHOP | QUALITY & TRUST
     </div>
-
-    <div class="input-group" style="margin-bottom: 15px; text-align: left;">
-        <label>Weight (Kilo) / ክብደት ብኪሎ</label>
-        <select id="custWeight" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd;">
-            <option value="1kg">1 Kilo</option>
-            <option value="2kg">2 Kilo</option>
-            <option value="5kg">5 Kilo</option>
-            <option value="10kg">10 Kilo</option>
-            <option value="25kg">25 Kilo</option>
-        </select>
-    </div>
-
-    <div class="input-group" style="margin-bottom: 20px; text-align: left;">
-        <label>Phone Number / ቁጽሪ ተሌፎን</label>
-        <input type="tel" id="custPhone" placeholder="+49..." style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd;">
-    </div>
-
-    <button onclick="submitToWhatsApp()" style="width: 100%; padding: 15px; background: #25D366; color: white; border: none; border-radius: 50px; font-size: 18px; font-weight: bold; cursor: pointer;">
-        SEND ORDER VIA WHATSAPP
-    </button>
 </div>
 
 <script>
-function submitToWhatsApp() {
-    const name = document.getElementById('custName').value;
-    const product = document.getElementById('custProduct').value;
-    const weight = document.getElementById('custWeight').value;
-    const phone = document.getElementById('custPhone').value;
+    function sendToWhatsApp() {
+        const name = document.getElementById('name').value;
+        const product = document.getElementById('product').value;
+        const weight = document.getElementById('weight').value;
+        const phone = document.getElementById('phone').value;
 
-    if(name === "" || phone === "") {
-        alert("በጃኹም ስምኩምን ቁጽሪ ተሌፎንኩምን ምልኡ!");
-        return;
+        // Validation (ስም ወይ ተሌፎን እንተዘይመልኡ የጠንቅቖም)
+        if(name === "" || phone === "") {
+            alert("በጃኹም ስምኩምን ቁጽሪ ተሌፎንኩምን ምልኡ!");
+            return;
+        }
+
+        // እቲ ናብ WhatsApp ዝኸይድ መልእኽቲ
+        const message = `*HEPM SHOP - NEW ORDER*%0A--------------------------%0A👤 *Name:* ${name}%0A📦 *Product:* ${product}%0A⚖️ *Weight:* ${weight}%0A📞 *Phone:* ${phone}%0A--------------------------`;
+        
+        // !!! ኣብዚ ታሕቲ ዘሎ ቁጽሪ ብናይ ባዕልኻ ቁጽሪ ተካእዮ !!!
+        const myWhatsAppNumber = "49123456789"; 
+        const url = `https://wa.me/${myWhatsAppNumber}?text=${message}`;
+
+        window.open(url, '_blank');
     }
-
-    // ናብ WhatsApp መልእኽቲ ንምስዳድ
-    const message = `HEPM SHOP ORDER:%0AName: ${name}%0AProduct: ${product}%0AWeight: ${weight}%0APhone: ${phone}`;
-    const whatsappURL = `https://wa.me/49123456789?text=${message}`; // ኣብዚ ቁጽሪ ተሌፎንካ ተካእዮ
-    
-    window.open(whatsappURL, '_blank');
-}
 </script>
+
+</body>
+</html>
